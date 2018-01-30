@@ -1,6 +1,6 @@
 # OOP Lab Assignments
 
-### This repository contains the OOP Lab assignments for 2nd year 2nd Semester for the course Compurt Science and engineering of Jadavpur University
+### This repository contains the OOP Lab assignments for 2nd year 2nd Semester for the course Computer Science and engineering of Jadavpur University
 
 #### The list of the assignments are as below with their directory name
 
