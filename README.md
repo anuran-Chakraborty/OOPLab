@@ -5,8 +5,8 @@
 #### The list of the assignments are as below with their directory name
 
 ### 1. Assignment 1
-..* Time class to display time in 24 hrs and 12 hr format
-..* Complex class to perform operations on complex numbers
-..* TollTax class to perform toll tax operations
-..* ItemList class to maintani a stock list of various items
-..* Student class for maintaning student records
+  * Time class to display time in 24 hrs and 12 hr format.
+  * Complex class to perform operations on complex numbers.
+  * TollTax class to perform toll tax operations.
+  * ItemList class to maintani a stock list of various items.
+  * Student class for maintaning student records.
