@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<ctime>
 
 using namespace std;
 
@@ -64,6 +65,7 @@ public:
 	//Function to check if date is valid or not
 	int isValid(Date d)
 	{
+		//Validating correct date
 		int days[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 		if(isLeap(d.year))
 			days[1]=29;
@@ -74,8 +76,37 @@ public:
 			if(d.day<0 || d.day>days[d.month-1])
 				return 0;
 			else
+			{
+				//Checking whether the date is after the current date then invalid
+				time_t now = time(0);
+				tm *ltm = localtime(&now);
+				int c_year=1900+ltm->tm_year;
+				int c_month=1 + ltm->tm_mon;
+				int c_day=ltm->tm_mday;
+				//If input year is after current date
+				if(d.year>c_year)
+					return 0;
+				//If input year is ok
+				else
+				if(d.year==c_year)
+				{
+					//If input year is equal to this year then check month
+					if(d.month>c_month)
+						return 0;
+					else
+					if(d.month==c_month)
+					{
+						if(d.day>c_day)
+							return 0;
+					}
+
+				}
 				return 1;
+			}
 		}
+
+		
+
 
 	}
 	//Function to check if a year is a leap year or not
@@ -106,8 +137,9 @@ public:
 	//Function to take admission
 	void admission()
 	{
+		cin.ignore();
 		cout<<"Enter name of student: ";
-		cin>>name;
+		getline(cin,name);
 		cout<<endl<<"Enter course name: ";
 		cin>>course;
 		cout<<endl<<"Enter admission date: ";
