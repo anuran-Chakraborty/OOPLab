@@ -9,7 +9,7 @@ class ARRAY
 
 public:
 	//Parametrized constructor
-	ARRAY(int s,int val=0)
+	ARRAY(int s=0,int val=0)
 	{
 		if(s!=0)
 		{
@@ -36,8 +36,18 @@ public:
 	//Constructor for initialisation with another array
 	ARRAY(const int* array)
 	{	
-		size=(sizeof(array)/sizeof(*array));
-		arr=new int[size];
+		// size=len(array);
+		// arr=new int[size];
+		int i;
+			//Initialise elements
+		for(i=0;i<size;i++)
+			arr[i]=array[i];
+
+	}
+
+	void operator =(const int* array)
+	{	
+
 		int i;
 			//Initialise elements
 		for(i=0;i<size;i++)
@@ -56,25 +66,6 @@ public:
 		int i;
 		for(i=0;i<size;i++)
 			arr[i]=a.arr[i];
-	}
-
-	// to accept elements into array
-	istream & operator >>(istream& ist,ARRAY& a)
-	{
-		cout<<"Enter "<<size<<" elements into array"<<endl;
-		int i;
-		for(i=0;i<size;i++)
-			ist>>a.arr[i];
-		return ist;
-	}
-
-	//to display ARRAY object
-	ostream & operator <<(ostream& ost,ARRAY& a)
-	{
-		int i;
-		for(i=0;i<size;i++)
-			ost<<a.arr[i]<<" ";
-		return ost;
 	}
 
 	//a+b will add the corresponding elements
@@ -110,7 +101,17 @@ public:
 		return size;
 	}
 
+	//Function to display array
+	void display()
+	{
+		int i;
+		for(i=0;i<size;i++)
+			cout<<arr[i]<<" ";
+
+	}
+
 	friend ARRAY operator *(int n,ARRAY a);
+	friend ostream & operator <<(ostream& ost,ARRAY& a);
 
 
 };
@@ -124,23 +125,33 @@ ARRAY operator *(int n, ARRAY a)
 	return c;
 }
 
+ostream & operator <<(ostream& ost,ARRAY& a)
+{
+	int i;
+	for(i=0;i<a.size;i++)
+		ost<<a.arr[i]<<" ";
+	return ost;
+}
+
 int main()
 {
-	int ch,size=0;
+	int ch,size=0,i,ind;
+	int* arr1;
+	int* arr2;
+	ARRAY a1;
+	ARRAY a2;
 	do
 	{
-		cout<<"1. Enter 2 arrays"<<endl<<"2. Add the two arrays"<<endl<<"3. Multiply first array by scalar"<<endl<<"4.Exit"<<endl<<"Enter your choice"<<endl;
-		Complex c1;
-		Complex c2;
-		Complex c3;
+		cout<<"1. Enter 2 arrays"<<endl<<"2. Add the two arrays"<<endl<<"3. Multiply first array by scalar"<<endl<<"4. Get ith element of first array"<<endl<<"5.Exit"<<endl<<"Enter your choice"<<endl;
 		cin>>ch;
 		switch(ch)
 		{
 			case 1:
+			
 			{
 				cout<<"Enter 2 arrays"<<endl;
 
-			//Input for 2 arrays
+						//Input for 2 arrays
 				cout<<"Enter size of first array"<<endl;
 				do
 				{
@@ -149,11 +160,19 @@ int main()
 						cout<<"invalid input for size....enter a positive number"<<endl;
 				}
 				while(size<=0);
-				ARRAY a1(size,0);
-				cin>>a1;
+				arr1=new int[size];
+				cout<<"Enter "<<size<<" elements into array"<<endl;
 
-			//Input for 2 arrays
-				cout<<"Enter size of 2nd array"<<endl;
+				for(i=0;i<size;i++)
+				{
+					cin>>arr1[i];
+				}
+
+				ARRAY c(size);
+				c=arr1;
+				a1=c;
+
+				cout<<"Enter size of second array"<<endl;
 				do
 				{
 					cin>>size;
@@ -161,13 +180,23 @@ int main()
 						cout<<"invalid input for size....enter a positive number"<<endl;
 				}
 				while(size<=0);
-				ARRAY a2(size,0);
-				cin>>a2;
+				arr2=new int[size];
+				cout<<"Enter "<<size<<" elements into array"<<endl;
+
+				for(i=0;i<size;i++)
+				{
+					cin>>arr2[i];
+				}
+
+				ARRAY d(size);
+				d=arr2;
+				a2=d;
+
+				break;
 			}
 
-			break;
-
 			case 2:
+			
 			{
 				if(size==0)
 				{
@@ -175,7 +204,7 @@ int main()
 					break;
 				}
 				else
-					if(a1.getSize()!=a2.getSize)
+					if(a1.getSize()!=a2.getSize())
 					{
 						cout<<"Addition not possible"<<endl;
 						break;
@@ -183,23 +212,51 @@ int main()
 					ARRAY c(a1.getSize(),0);
 					c=a1+a2;
 					cout<<"the sum array is ";
-					cout<<c;
+					cout<<c<<endl;
 					break;
 				}
+				
 
 				case 3:
+				{
+					if(size==0)
+					{
+						cout<<"First enter two arrays"<<endl;
+						break;
+					}
 					int n;
 					cout<<"Enter scalar"<<endl;
 					cin>>n;
 					ARRAY c(a1.getSize(),0);
 					c=n*a1;
 					cout<<"Doing "<<n<<"*a1 gives "<<endl;
-					cout<<c;
+					cout<<c<<endl;
 					c=a1*n;
 					cout<<"Doing a1*"<<n<<" gives"<<endl;
-					cout<<c;
+					cout<<c<<endl;
+					break;
+				}
 
-				case 3:
+				case 4:
+				{
+					if(size==0)
+					{
+						cout<<"First enter two arrays"<<endl;
+						break;
+					}
+					do
+					{
+						cout<<"Enter index"<<endl;
+						cin>>ind;
+						if(ind>=a1.getSize() || ind<0)
+							cout<<"Invalid index"<<endl;
+					}
+					while(ind>=a1.getSize() || ind<0);
+					cout<<"The required element is "<<a1[ind]<<endl;
+					break;
+				}
+
+				case 5:
 				cout<<"Exitting"<<endl;
 				exit(0);
 
@@ -207,6 +264,6 @@ int main()
 				cout<<"Invalid choice"<<endl;
 			}
 		}
-		while(ch!=3);
+		while(ch!=5);
 		return 0;
 	}
