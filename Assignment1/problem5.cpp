@@ -58,6 +58,25 @@ public:
 			arr[i]=a.arr[i];
 	}
 
+	// to accept elements into array
+	istream & operator >>(istream& ist,ARRAY& a)
+	{
+		cout<<"Enter "<<size<<" elements into array"<<endl;
+		int i;
+		for(i=0;i<size;i++)
+			ist>>a.arr[i];
+		return ist;
+	}
+
+	//to display ARRAY object
+	ostream & operator <<(ostream& ost,ARRAY& a)
+	{
+		int i;
+		for(i=0;i<size;i++)
+			ost<<a.arr[i]<<" ";
+		return ost;
+	}
+
 	//a+b will add the corresponding elements
 	ARRAY operator +(ARRAY b)
 	{
@@ -85,7 +104,14 @@ public:
 		return c;
 	}
 
+	//Function to get size of array
+	int getSize()
+	{
+		return size;
+	}
+
 	friend ARRAY operator *(int n,ARRAY a);
+
 
 };
 
@@ -100,5 +126,87 @@ ARRAY operator *(int n, ARRAY a)
 
 int main()
 {
-	return 0;
-}
+	int ch,size=0;
+	do
+	{
+		cout<<"1. Enter 2 arrays"<<endl<<"2. Add the two arrays"<<endl<<"3. Multiply first array by scalar"<<endl<<"4.Exit"<<endl<<"Enter your choice"<<endl;
+		Complex c1;
+		Complex c2;
+		Complex c3;
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:
+			{
+				cout<<"Enter 2 arrays"<<endl;
+
+			//Input for 2 arrays
+				cout<<"Enter size of first array"<<endl;
+				do
+				{
+					cin>>size;
+					if(size<=0)
+						cout<<"invalid input for size....enter a positive number"<<endl;
+				}
+				while(size<=0);
+				ARRAY a1(size,0);
+				cin>>a1;
+
+			//Input for 2 arrays
+				cout<<"Enter size of 2nd array"<<endl;
+				do
+				{
+					cin>>size;
+					if(size<=0)
+						cout<<"invalid input for size....enter a positive number"<<endl;
+				}
+				while(size<=0);
+				ARRAY a2(size,0);
+				cin>>a2;
+			}
+
+			break;
+
+			case 2:
+			{
+				if(size==0)
+				{
+					cout<<"First enter two arrays"<<endl;
+					break;
+				}
+				else
+					if(a1.getSize()!=a2.getSize)
+					{
+						cout<<"Addition not possible"<<endl;
+						break;
+					}
+					ARRAY c(a1.getSize(),0);
+					c=a1+a2;
+					cout<<"the sum array is ";
+					cout<<c;
+					break;
+				}
+
+				case 3:
+					int n;
+					cout<<"Enter scalar"<<endl;
+					cin>>n;
+					ARRAY c(a1.getSize(),0);
+					c=n*a1;
+					cout<<"Doing "<<n<<"*a1 gives "<<endl;
+					cout<<c;
+					c=a1*n;
+					cout<<"Doing a1*"<<n<<" gives"<<endl;
+					cout<<c;
+
+				case 3:
+				cout<<"Exitting"<<endl;
+				exit(0);
+
+				default:
+				cout<<"Invalid choice"<<endl;
+			}
+		}
+		while(ch!=3);
+		return 0;
+	}
