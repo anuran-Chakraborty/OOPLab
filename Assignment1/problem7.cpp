@@ -32,8 +32,10 @@ public:
 	STRING(const STRING& s)
 	{
 		size=s.size;
+		refCnt =new int;
 		refCnt=s.refCnt;
 		*refCnt=*refCnt+1;
+		a=new char[size];
 		a=s.a;
 			// cout<<"Address of string 1 : "<<&(a)<<endl;
 			// cout<<"Address of string 2 : "<<&(s.a)<<endl;
@@ -42,10 +44,18 @@ public:
 		//assignment operator
 	void operator =(const STRING& s)
 	{
+		if(size!=0)
+			delete a;
 		size=s.size;
-		refCnt=s.refCnt;
-		*refCnt=*refCnt+1;
-		a=s.a;
+		if(size==0)
+			a=NULL;
+		else
+		{
+			a=new char[size+1];
+			a[size]='\0';
+			for(int i=0;i<size;i++)
+				a[i]=s.a[i];
+		}
 			// cout<<"Address of string 1 : "<<&(a)<<endl;
 			// cout<<"Address of string 2 : "<<&(s.a)<<endl;
 	}
@@ -156,6 +166,10 @@ public:
 		}
 		s.a=a;
 		cout<<s.a<<endl;
+
+		s.refCnt=new int;
+		*s.refCnt=1;
+
 		return in;
 	}
 
@@ -189,6 +203,7 @@ public:
 				s3=s1+s2;
 				cout<<s1<<" + "<<s2<<" = "<<s3<<"\n";
 				break;
+
 				case 2:
 				cout<<"Enter first string\n";
 				cin>>s1;
@@ -205,13 +220,16 @@ public:
 						break;
 
 						case 3:
-						cout<<"Showing value of string 1 at this moment : "<<s1<<"\nEnter string to copy : \n";
-						cin>>s2;
-						cout<<"Showing value of string s2 : "<<s2<<endl;
-						s1=s2;
-						cout<<"Showing new value of string 1 : "<<s1<<endl;
-						s3=s2;
-						break;
+
+						{
+							cout<<"\nEnter string to copy : \n";
+							cin>>s2;
+							cout<<"Showing value of string s2 : "<<s2<<endl;
+							STRING s3(s2);
+							STRING s4(s2);
+							cout<<"Showing value of string s4 : "<<s4<<endl;
+							break;
+						}
 
 						case 4:
 						cout<<"Exitting\n";
