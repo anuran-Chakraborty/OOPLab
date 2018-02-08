@@ -244,7 +244,7 @@ int main()
 	BALANCE_LIST lst;
 	do
 	{
-		cout<<"1. Add new account"<<endl<<"2. Transact with existing account"<<endl<<"3. Details of a account"<<endl<<"4. Exit"<<endl<<"Enter choice"<<endl;
+		cout<<"1. Add new account"<<endl<<"2. Transact with existing account"<<endl<<"3. Details of an account"<<endl<<"4. Exit"<<endl<<"Enter choice"<<endl;
 		cin>>ch;
 
 		switch(ch)
@@ -298,6 +298,7 @@ int main()
 
 	}
 	while(ch!=4);
+	return 0;
 }
 
 

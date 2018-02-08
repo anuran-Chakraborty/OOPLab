@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<cstdlib>
 
 using namespace std;
 
@@ -121,15 +122,25 @@ public:
 			cout<<"Item is not present"<<endl;
 		else
 		{
-			cout<<"Enter qunatity of item to be delivered"<<endl;
-			cin>>q;
-			if(list[i].getQty()<q)
-				cout<<"Not enough quantity"<<endl;
-			else
+			do
 			{
-				cout<<"Your total amount is "<<(list[i].getRate()*list[i].getQty())<<endl;
-				list[i].setQty(list[i].getQty()-q);
+				do
+				{
+					cout<<"Enter quantity of item to be delivered"<<endl;
+					cin>>q;
+					if(q<=0)
+						cout<<"Invalid quantity"<<endl;
+				}
+				while(q<=0);
+				if(list[i].getQty()<q)
+					cout<<"Not enough quantity"<<endl;
 			}
+			while(list[i].getQty()<q);
+			
+			
+			cout<<"Your total amount is "<<(list[i].getRate()*list[i].getQty())<<endl;
+			list[i].setQty(list[i].getQty()-q);
+			
 
 		}
 	}
@@ -154,7 +165,7 @@ int main()
 	ItemList l1;
 	string n,c;
 	double r;
-	int q;
+	int q,flag;
 	do
 	{
 		cout<<"1. Add new item"<<endl<<"2. Issue item"<<endl<<"3. Update price of item"<<endl<<"4. Update quantity of item"<<endl<<"5. Check availability and price of an item"<<endl<<"6. Exit"<<endl<<"Enter choice"<<endl;
@@ -163,21 +174,43 @@ int main()
 		{
 			case 1:
 			{
-				cout<<"Enter item code of new item"<<endl;
-				cin>>c;
-				if(l1.isPresent(c)!=-1)
-					cout<<"Item already present"<<endl;
-				else
+				do
 				{
-					cout<<"Enter name of new item"<<endl;
-					cin>>n;
-					cout<<"Enter rate of new item"<<endl;
-					cin>>r;
-					cout<<"Enter quantity of new item"<<endl;
-					cin>>q;
-					Item i(c,n,r,q);
-					l1.addItem(i);
+					flag=0;
+					cout<<"Enter item code of new item"<<endl;
+					cin>>c;
+					if(l1.isPresent(c)!=-1)
+					{
+						cout<<"Item already present"<<endl;
+						flag=1;
+					}
+					else
+					{
+						cout<<"Enter name of new item"<<endl;
+						cin>>n;
+						do
+						{
+							cout<<"Enter rate of new item"<<endl;
+							cin>>r;
+							if(r<=0)
+								cout<<"Invalid rate"<<endl;
+						}
+						while(r<=0);
+
+						do
+						{
+							cout<<"Enter quantity of new item"<<endl;
+							cin>>q;
+							if(q<=0)
+								cout<<"Invalid quantity"<<endl;
+						}
+						while(q<=0);
+
+						Item i(c,n,r,q);
+						l1.addItem(i);
+					}
 				}
+				while(flag==1);
 				break;
 			}
 
@@ -193,8 +226,14 @@ int main()
 					cout<<"Item not present"<<endl;
 				else
 				{
-					cout<<"Enter new rate of item"<<endl;
-					cin>>r;
+					do
+					{
+						cout<<"Enter rate of new item"<<endl;
+						cin>>r;
+						if(r<=0)
+							cout<<"Invalid rate"<<endl;
+					}
+					while(r<=0);
 					l1.changeRate(r,c);
 				}
 			}
@@ -208,8 +247,15 @@ int main()
 					cout<<"Item not present"<<endl;
 				else
 				{
-					cout<<"Enter extra quantity of item to be added"<<endl;
-					cin>>q;
+
+					do
+					{
+						cout<<"Enter extra quantity of item to be added"<<endl;
+						cin>>q;
+						if(q<=0)
+							cout<<"Invalid input"<<endl;
+					}
+					while(q<=0);
 					l1.changeQty(q,c);
 				}
 				break;

@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<ctime>
+#include<cstdlib>
 
 using namespace std;
 
@@ -88,42 +89,42 @@ public:
 					return 0;
 				//If input year is ok
 				else
-				if(d.year==c_year)
-				{
-					//If input year is equal to this year then check month
-					if(d.month>c_month)
-						return 0;
-					else
-					if(d.month==c_month)
+					if(d.year==c_year)
 					{
-						if(d.day>c_day)
+					//If input year is equal to this year then check month
+						if(d.month>c_month)
 							return 0;
+						else
+							if(d.month==c_month)
+							{
+								if(d.day>c_day)
+									return 0;
+							}
+
+						}
+						return 1;
 					}
-
 				}
-				return 1;
+
+
+
+
 			}
-		}
-
-		
-
-
-	}
 	//Function to check if a year is a leap year or not
-	int isLeap(int y)
-	{
-		if((y%100==0 & y%400==0) || (y%100!=0 && y%4==0))
-			return 1;
-		return 0;
-	}
-};
+			int isLeap(int y)
+			{
+				if((y%100==0 & y%400==0) || (y%100!=0 && y%4==0))
+					return 1;
+				return 0;
+			}
+		};
 
 
 
 //Class to store student details
-class Student
-{
-public:
+		class Student
+		{
+		public:
 	static int count; //Store total umber of students
 
 private:
@@ -138,8 +139,15 @@ public:
 	void admission()
 	{
 		cin.ignore();
-		cout<<"Enter name of student: ";
-		getline(cin,name);
+		do
+		{
+			
+			cout<<"Enter name of student: "<<endl;
+			getline(cin,name);
+			if(!isName(name))
+				cout<<"Invalid name"<<endl;
+		}
+		while(!isName(name));
 		cout<<endl<<"Enter course name: ";
 		cin>>course;
 		cout<<endl<<"Enter admission date: ";
@@ -149,116 +157,133 @@ public:
 		cout<<"Admission successfull"<<endl<<"Roll number of new student is: "<<rollNo<<endl;
 	}
 
-	//Function to receive marks
-	void receiveMarks()
+	//Function to check whether name is valid
+	int isName(string n)
 	{
-		cout<<"Enter marks in 5 subjects"<<endl;
-		int i;
-		for(i=0;i<5;)
-		{
-			cin>>marks[i];
-			if(marks[i]<0 || marks[i]>100)
-			{
-				cout<<"invalid marks"<<endl;
+		int flag=1,i;
+		for(i=0;i<n.length();i++)
+			if(n[i]!=' ')
+				if(n[i]<65 || (n[i]>90 && n[i]<97) || n[i]>122)
+				{
+					flag=0;
+					break;
+				}
+				return flag;
 			}
-			else
-				i++;
-		}
 
-	}
+	//Function to receive marks
+			void receiveMarks()
+			{
+				cout<<"Enter marks in 5 subjects"<<endl;
+				int i;
+				for(i=0;i<5;)
+				{
+					cin>>marks[i];
+					if(marks[i]<0 || marks[i]>100)
+					{
+						cout<<"invalid marks"<<endl;
+					}
+					else
+						i++;
+				}
+
+			}
 
 	//Function to dispplay marksheet
-	void displayMarksheet()
-	{
-		int i;
-		cout<<"================================================================="<<endl;
-		cout<<"|\tName :"<<name<<"\t\t\t"<<"| Roll number: "<<rollNo<<"\t|"<<endl;
-		cout<<"-----------------------------------------------------------------"<<endl;
-		cout<<"|\tSUBJECT\t\t\t|\t\tMARKS\t\t|"<<endl;
-		cout<<"-----------------------------------------------------------------"<<endl;
-		for(i=0;i<5;i++)
-		{
-			cout<<"|\tSubject "<<i<<"\t\t|\t\t"<<marks[i]<<"\t\t|"<<endl;
-		}
-		cout<<"================================================================="<<endl;
-	}
+			void displayMarksheet()
+			{
+				int i;
+				cout<<"================================================================="<<endl;
+				cout<<"|\tName :"<<name<<"\t\t"<<"| Roll number: "<<rollNo<<"\t\t\t|"<<endl;
+				cout<<"-----------------------------------------------------------------"<<endl;
+				cout<<"|\tSUBJECT\t\t\t|\t\tMARKS\t\t|"<<endl;
+				cout<<"-----------------------------------------------------------------"<<endl;
+				for(i=0;i<5;i++)
+				{
+					cout<<"|\tSubject "<<i<<"\t\t|\t\t"<<marks[i]<<"\t\t|"<<endl;
+				}
+				cout<<"-----------------------------------------------------------------"<<endl;
+				double per=(marks[0]+marks[1]+marks[2]+marks[3]+marks[4])/5.0;
+				cout<<"|\tPercentage: "<<per<<"%\t\t\t\t\t\t|"<<endl;
+				cout<<"================================================================="<<endl;
+			}
 
 	//Function to get roll number of student
-	int getRoll()
-	{
-		return rollNo;
-	}
+			int getRoll()
+			{
+				return rollNo;
+			}
 
-};
-int Student::count=0;
+		};
+		int Student::count=0;
 
 
-int main()
-{
-	Student st[100];
-	int ch,roll,flag=1,i;
-	do
-	{
-		cout<<"1. New Admission"<<endl<<"2. Marks-entry"<<endl<<"3. Marksheet display"<<endl<<"4. Display total no of studnets"<<endl<<"5. Exit"<<endl<<"Enter choice"<<endl;
-		cin>>ch;
-		switch(ch)
+		int main()
 		{
-			case 1:
-			st[Student::count].admission();
-			break;
-
-			case 2:
-			flag=0;
+			Student st[100];
+			int ch,roll,flag=1,i;
 			do
 			{
-				cout<<"Enter roll number of student ";
-				cin>>roll;
+				cout<<"1. New Admission"<<endl<<"2. Marks-entry"<<endl<<"3. Marksheet display"<<endl<<"4. Display total no of studnets"<<endl<<"5. Exit"<<endl<<"Enter choice"<<endl;
+				cin>>ch;
+				switch(ch)
+				{
+					case 1:
+					st[Student::count].admission();
+					break;
+
+					case 2:
+					flag=0;
+					do
+					{
+						cout<<"Enter roll number of student ";
+						cin>>roll;
 
 				//Check if a roll exists in the array or not
-				for(i=0;i<Student::count;i++)
-					if(st[i].getRoll()==roll){
-						flag=1;
+						for(i=0;i<Student::count;i++)
+							if(st[i].getRoll()==roll){
+								flag=1;
+								break;
+							}
+							if(flag==0)
+								cout<<"Invalid roll number... Re-enter"<<endl;
+						}
+						while(flag==0);
+						st[i].receiveMarks();
 						break;
-					}
-					if(flag==0)
-						cout<<"Invalid roll number... Re-enter"<<endl;
-				}
-				while(flag==0);
-				st[i].receiveMarks();
-				break;
 
-				case 3:
-				flag=0;
-				do
-				{
-					cout<<"Enter roll number of student ";
-					cin>>roll;
+						case 3:
+						flag=0;
+						do
+						{
+							cout<<"Enter roll number of student ";
+							cin>>roll;
 
 					//Check if a roll exists in the array or not
-					for(i=0;i<Student::count;i++)
-						if(st[i].getRoll()==roll){
-							flag=1;
+							for(i=0;i<Student::count;i++)
+								if(st[i].getRoll()==roll){
+									flag=1;
+									break;
+								}
+								if(flag==0)
+									cout<<"Invalid roll number... Re-enter"<<endl;
+							}
+							while(flag==0);
+							st[i].displayMarksheet();
 							break;
+
+							case 4:
+							cout<<"Total number of students: "<<Student::count<<endl;
+							break;
+
+							case 5:
+							cout<<"Quitting"<<endl;
+							exit(0);
+
+							default:
+							cout<<"Invalid choice"<<endl;
 						}
-						if(flag==0)
-							cout<<"Invalid roll number... Re-enter"<<endl;
 					}
-					while(flag==0);
-					st[i].displayMarksheet();
-					break;
-
-					case 4:
-					cout<<"Total number of students: "<<Student::count<<endl;
-					break;
-
-					case 5:
-					cout<<"Quitting"<<endl;
-					exit(0);
-
-					default:
-					cout<<"Invalid choice"<<endl;
+					while(ch!=5);
+					return 0;
 				}
-			}
-			while(ch!=5);
-			return 0;
-		}
