@@ -31,6 +31,32 @@ ostream & operator << (ostream &ost,const Date &c)
 	ost<<c.day<<"-"<<c.month<<"-"<<c.year<<endl;
 }
 
+class BALANCE;
+
+//Class to define a transaction
+class TRANSACTION
+{
+	int ac_no;
+	int type;//1- withdrawal 0-deposit
+	Date d;
+	double amount;
+
+public:
+	TRANSACTION(int ano=0)
+	{
+		ac_no=ano;
+		type=-1;
+		amount=0.0;
+		Date dt;
+		d=dt;
+	}
+
+	void transact(BALANCE& b);
+	void withdraw(BALANCE& b,double amt);
+	void deposit(BALANCE& b, double amt);
+	void displayTrans();
+};
+
 
 //Class for balance
 class BALANCE
@@ -38,6 +64,8 @@ class BALANCE
 	int ac_no;
 	Date last_update;
 	double balance;
+	TRANSACTION t[10];
+	int noOfTrans;
 
 public:
 	BALANCE(int ano=0)
@@ -46,8 +74,13 @@ public:
 		Date d;
 		last_update=d;
 		balance=0.0;
+		noOfTrans=0;
 	}
-
+	//Function to increase noOfTrans
+	void inNoOfTrans()
+	{
+		noOfTrans++;
+	}
 	//Function to set balance
 	void setBalance(double b)
 	{
@@ -73,94 +106,87 @@ public:
 	{
 		cout<<endl<<"Account number: "<<ac_no<<endl<<"Date of last update: "<<last_update<<"Balance: "<<balance<<endl<<endl;
 	}
+	//Display all transactions for an account
+	void displayTransactions()
+	{
+		int i;
+		for(i=0;i<noOfTrans;i++)
+			t[i].displayTrans();
+	}
 
 
 };
 
-//Class to define a transaction
-class TRANSACTION
+
+//==============================================================================================
+void TRANSACTION::transact(BALANCE& b)
 {
-	int ac_no;
-	int type;//1- withdrawal 0-deposit
-	Date d;
-	double amount;
-
-public:
-	TRANSACTION(int ano=0)
+	do
 	{
-		ac_no=ano;
-		type=-1;
-		amount=0.0;
-		Date dt;
-		d=dt;
+		cout<<"Enter type of transaction"<<endl<<"0. Deposit"<<endl<<"1. Withdrawal"<<endl;
+		cin>>type;
+		if(type!=0 && type!=1)
+			cout<<"Invalid choice"<<endl;
 	}
+	while(type!=0 && type!=1);
 
-	void transact(BALANCE& b)
+	do
 	{
-		do
-		{
-			cout<<"Enter type of transaction"<<endl<<"0. Deposit"<<endl<<"1. Withdrawal"<<endl;
-			cin>>type;
-			if(type!=0 && type!=1)
-				cout<<"Invalid choice"<<endl;
-		}
-		while(type!=0 && type!=1);
-
-		do
-		{
-			cout<<"Enter amount"<<endl;
-			cin>>amount;
-			if(amount<=0)
-				cout<<"Invalid amount"<<endl;
-		}
-		while(amount<=0);
-
-		if(type==0)
-			deposit(b,amount);
-		else
-			withdraw(b,amount);
+		cout<<"Enter amount"<<endl;
+		cin>>amount;
+		if(amount<=0)
+			cout<<"Invalid amount"<<endl;
 	}
+	while(amount<=0);
+
+	if(type==0)
+		deposit(b,amount);
+	else
+		withdraw(b,amount);
+}
 
 	//Function to withdraw
-	void withdraw(BALANCE& b,double amt)
-	{
-		if(b.getBalance()<amt)
-			cout<<"Insufficient balance"<<endl;
-		else
-		{
-			Date d;
-			b.setBalance(b.getBalance()-amt);
-			b.setDate(d);
-			amount=amt;
-			cout<<"Withdrawal successfull"<<endl;
-			cout<<"==============================="<<endl;
-			display();
-			cout<<"==============================="<<endl;
-		}
-	}
-
-	//Function to deposit
-	void deposit(BALANCE& b, double amt)
+void TRANSACTION::withdraw(BALANCE& b,double amt)
+{
+	if(b.getBalance()<amt)
+		cout<<"Insufficient balance"<<endl;
+	else
 	{
 		Date d;
-		b.setBalance(b.getBalance()+amt);
+		b.setBalance(b.getBalance()-amt);
 		b.setDate(d);
 		amount=amt;
-		cout<<"Deposit successfull"<<endl;
+		cout<<"Withdrawal successfull"<<endl;
 		cout<<"==============================="<<endl;
-		display();
+		displayTrans();
+		b.inNoOfTrans();
 		cout<<"==============================="<<endl;
 	}
+}
+
+	//Function to deposit
+void TRANSACTION::deposit(BALANCE& b, double amt)
+{
+	Date d;
+	b.setBalance(b.getBalance()+amt);
+	b.setDate(d);
+	amount=amt;
+	cout<<"Deposit successfull"<<endl;
+	cout<<"==============================="<<endl;
+	displayTrans();
+	b.inNoOfTrans();
+	cout<<"==============================="<<endl;
+}
 
 	//Function to display a transaction
-	void display()
-	{
-		cout<<"TRANSACTION DETAILS"<<endl;
-		string ty=(type==0)?"Deposit":"Withdrawal";
-		cout<<"Account number: "<<ac_no<<endl<<"Date: "<<d<<"Type: "<<ty<<endl<<"Amount: "<<amount<<endl;
-	}
+void TRANSACTION::displayTrans()
+{
+	cout<<"TRANSACTION DETAILS"<<endl;
+	string ty=(type==0)?"Deposit":"Withdrawal";
+	cout<<"Account number: "<<ac_no<<endl<<"Date: "<<d<<"Type: "<<ty<<endl<<"Amount: "<<amount<<endl;
+}
 
-};
+//=====================================================================================================
 
 class BALANCE_LIST
 {
@@ -236,6 +262,12 @@ public:
 		list[getAcno(ano)].show();
 	}
 
+		//Function to display all transactions for a particular account
+	void displayAllTrans(int acno)
+	{
+		list[getAcno(acno)].displayTransactions();
+	}
+
 };
 
 int main()
@@ -244,7 +276,7 @@ int main()
 	BALANCE_LIST lst;
 	do
 	{
-		cout<<"1. Add new account"<<endl<<"2. Transact with existing account"<<endl<<"3. Details of an account"<<endl<<"4. Exit"<<endl<<"Enter choice"<<endl;
+		cout<<"1. Add new account"<<endl<<"2. Transact with existing account"<<endl<<"3. Details of an account"<<endl<<"4. Get transactions for an account"<<endl<<"5. Exit"<<endl<<"Enter choice"<<endl;
 		cin>>ch;
 
 		switch(ch)
@@ -288,6 +320,23 @@ int main()
 			break;
 
 			case 4:
+			if(lst.getCount()==0)
+			{
+				cout<<"Add some new current account first"<<endl;
+				break;
+			}
+			do
+			{
+				cout<<"Enter account number"<<endl;
+				cin>>acno;
+				if(lst.getAcno(acno)==-1)
+					cout<<"Invalid account number..Re-enter"<<endl;
+			}
+			while(lst.getAcno(acno)==-1);
+			lst.displayAllTrans(acno);
+			break;
+
+			case 5:
 			cout<<"Quitting"<<endl;
 			exit(0);
 
@@ -297,7 +346,7 @@ int main()
 		
 
 	}
-	while(ch!=4);
+	while(ch!=5);
 }
 
 
