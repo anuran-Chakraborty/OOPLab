@@ -54,7 +54,7 @@ public:
 			else
 			{
 				Node* temp=head;
-				while((temp->next!=NULL) && (temp->next->priority)>p)
+				while((temp->next!=NULL) && (temp->next->priority)>=p)
 				{
 					temp=temp->next;
 				}
