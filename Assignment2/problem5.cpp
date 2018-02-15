@@ -103,23 +103,31 @@ int main()
 	while(V<=0);
 
 	Graph g(V);
-
-	cout<<"Enter weight of edge between ggiven vertices..0 or neagtive input indicates no edge"<<endl;
-	for(int i=0;i<V;i++)
+	do
 	{
-		for(int j=0;j<V;j++)
+		int cnt=0;
+		cout<<"Enter weight of edge between given vertices..0 or negative input indicates no edge"<<endl;
+		for(int i=0;i<V;i++)
 		{
-			if(j>i)
+			for(int j=0;j<V;j++)
 			{
-				cout<<"Enter weight of edge between vertex "<<(char)(i+'A')<<" and vertex "<<(char)(j+'A')<<": ";
-				cin>>wt;
-				if(wt>0)
+				if(j>i)
 				{
-					g.addEdge(i,j,wt);
+					cout<<"Enter weight of edge between vertex "<<(char)(i+'A')<<" and vertex "<<(char)(j+'A')<<": ";
+					cin>>wt;
+					if(wt>0)
+					{
+						g.addEdge(i,j,wt);
+						cnt++;
+					}
 				}
 			}
 		}
+		if(cnt<(V-1))
+			cout<<"Minimum "<<(V-1)<<" edges required ffor spanning tree"<<endl;
 	}
+	while(cnt<(V-1));
+
 	cout<<"c1"<<endl;
 	g.findMst();
 
