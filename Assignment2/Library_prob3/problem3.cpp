@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<vector>
 
 using namespace std;
 
@@ -120,297 +121,346 @@ public:
 			friend ofstream& operator<<(ofstream& f,Date& d);
 		};
 
-ostream& operator<<(ostream& o,Date d)
-{
-	o<<d.day<<"-"<<d.month<<"-"<<d.year;
-	return o;
-}
+		ostream& operator<<(ostream& o,Date d)
+		{
+			o<<d.day<<"-"<<d.month<<"-"<<d.year;
+			return o;
+		}
 
-ofstream& operator<<(ofstream& f,Date d)
-{
-	f<<d.day<<"-"<<d.month<<"-"<<d.year;
-	return f;
-}
+		ofstream& operator<<(ofstream& f,Date d)
+		{
+			f<<d.day<<"-"<<d.month<<"-"<<d.year;
+			return f;
+		}
 
 
 
-class Book
-{
-	int id;
-	string name;
-	int qty;
+		class Book
+		{
+			int id;
+			string name;
+			int qty;
 
-public:
+		public:
 	//Constructor
-	Book(int i,String s,int q=0)
-	{
-		id=i;
-		name=s;
-		qty=q;
-	}
+			Book(int i,String s,int q=0)
+			{
+				id=i;
+				name=s;
+				qty=q;
+			}
 
 	//Function to get id
-	int get_id_b()
-	{
-		return id;
-	}
+			int get_id_b()
+			{
+				return id;
+			}
 
 	//Function to get quantity
-	int get_qty_b()
-	{
-		return qty;
-	}
+			int get_qty_b()
+			{
+				return qty;
+			}
 
 	//Function to issue a book
-	void issue_b()
-	{
-		copies--;
-	}
+			void issue_b()
+			{
+				copies--;
+			}
 
 	//Function to return a book
-	void return_b()
-	{
-		copies++;
-	}
+			void return_b()
+			{
+				copies++;
+			}
 
 	//Function to insert a book into the book list
-	void insert_b()
-	{
-		fstream f_booklist;
-		f_booklist.open("booklist.txt",ios::app);
-		f_booklist<<endl;
-		f_booklist<<id<<endl<<name<<endl<<copies;
-		f_booklist.close();
-	}
+			void insert_b()
+			{
+				fstream f_booklist;
+				f_booklist.open("booklist.txt",ios::app);
+				f_booklist<<endl;
+				f_booklist<<id<<endl<<name<<endl<<copies;
+				f_booklist.close();
+			}
 
 	//Function to display details of book
-	void display_b()
-	{
-		cout<<id<<"\t"<<name<<"\t"<<qty<<endl;
-	}
+			void display_b()
+			{
+				cout<<id<<"\t"<<name<<"\t"<<qty<<endl;
+			}
 
-};
+		};
 
 
 //Class to store journal details
-class Journal
-{
-	int id;
-	string name;
-	Date doi;
-	int vol;
-	int qty;
+		class Journal
+		{
+			int id;
+			string name;
+			Date doi;
+			int vol;
+			int qty;
 
-public:
+		public:
 	//Constructor
-	Journal(int i,string n,Date d,int v,int q=0)
-	{
-		id=i;
-		name=n;
-		doi=d;
-		vol=v;
-		qty=q;
-	}
+			Journal(int i,string n,Date d,int v,int q=0)
+			{
+				id=i;
+				name=n;
+				doi=d;
+				vol=v;
+				qty=q;
+			}
 	//Function to return id
-	int get_id_j()
-	{
-		return id;
-	}
+			int get_id_j()
+			{
+				return id;
+			}
 
 	//Function to get quantity
-	int get_qty_j()
-	{
-		return qty;
-	}
+			int get_qty_j()
+			{
+				return qty;
+			}
 
 	//Function to issue a journal
-	void issue_j()
-	{
-		copies--;
-	}
+			void issue_j()
+			{
+				copies--;
+			}
 
 	//Function to return a journal
-	void return_j()
-	{
-		copies++;
-	}
+			void return_j()
+			{
+				copies++;
+			}
 
 	//Function to display journal details
-	void display_j()
-	{
-		cout<<id<<"\t"<<name<<"\t"<<doi<<"\t"<<vol<<"\t"<<qty<<endl;
-	}
+			void display_j()
+			{
+				cout<<id<<"\t"<<name<<"\t"<<doi<<"\t"<<vol<<"\t"<<qty<<endl;
+			}
 
 	//Function to insert a new jornal into the journal list
-	void insert_j()
-	{
-		fstream f_jlist;
-		f_jlist.open("journallist.txt",ios::app);
-		f_jlist<<endl;
-		f_jlist<<id<<endl<<name<<endl<<doi<<endl<<vol<<endl<<endl<<copies;
-		f_jlist.close();
-	}
+			void insert_j()
+			{
+				fstream f_jlist;
+				f_jlist.open("journallist.txt",ios::app);
+				f_jlist<<endl;
+				f_jlist<<id<<endl<<name<<endl<<doi<<endl<<vol<<endl<<endl<<copies;
+				f_jlist.close();
+			}
 
-};
+		};
 
-class Student
-{
-	int id;
-	string name;
-	int noOfBooks;
-	int issue_books[2];
+		class Student
+		{
+			int id;
+			string name;
+			int noOfBooks;
+			int issue_books[2];
 
-public:
+		public:
 	//Constructor
-	Student(int i,string n,int no=0,int b[])
-	{
-		id=i;
-		name=n;
-		noOfBooks=no;
-		issue_books=b;
-	}
+			Student(int i,string n,int no=0,int b[])
+			{
+				id=i;
+				name=n;
+				noOfBooks=no;
+				issue_books=b;
+			}
 	//Function to return id
-	int get_id_s()
-	{
-		return id;
-	}
+			int get_id_s()
+			{
+				return id;
+			}
 
 	//Function to get quantity
-	int get_noOfBooks_s()
-	{
-		return noOfBooks;
-	}
+			int get_noOfBooks_s()
+			{
+				return noOfBooks;
+			}
 
 	//Function to issue a book
-	void issue_s(int card_no,int b_id)
-	{
-		if(issue_books[card_no]==0)
-		{
-			issue_books[card_no]=b_id;
-			noOfBooks++;
-		}
-		else
-		{
-			cout<<"You have books issued on this card..unable to issue"<<endl;
-		}
-	}
+			void issue_s(int card_no,int b_id)
+			{
+				if(issue_books[card_no]==0)
+				{
+					issue_books[card_no]=b_id;
+					noOfBooks++;
+				}
+				else
+				{
+					cout<<"You have books issued on this card..unable to issue"<<endl;
+				}
+			}
 
 	//Function to return a book
-	void return_s(int card_no)
-	{
-		if(issue_books[card_no]!=0)
-		{
-			issue_books[card_no]=0;
-			noOfBooks--;
-		}
-		else
-		{
-			cout<<"No books issued to you on this card"<<endl;
-		}
-	}		
+			void return_s(int card_no)
+			{
+				if(issue_books[card_no]!=0)
+				{
+					issue_books[card_no]=0;
+					noOfBooks--;
+				}
+				else
+				{
+					cout<<"No books issued to you on this card"<<endl;
+				}
+			}		
 
 	//Function to display student details
-	void display_s()
-	{
-		cout<<id<<"\t"<<name<<"\t";
-	}
+			void display_s()
+			{
+				cout<<id<<"\t"<<name<<"\t";
+			}
 
 	//Function to insert a new student into list
-	void insert_s()
-	{
-		fstream f_slist;
-		f_jlist.open("studentlist.txt",ios::app);
-		f_jlist<<endl;
-		f_jlist<<id<<endl<<name<<endl<<issue[0]<<" "<<issue[1]<<endl;
-		f_jlist.close();
-	}
+			void insert_s()
+			{
+				fstream f_slist;
+				f_jlist.open("studentlist.txt",ios::app);
+				f_jlist<<endl;
+				f_jlist<<id<<endl<<name<<endl<<issue[0]<<" "<<issue[1]<<endl;
+				f_jlist.close();
+			}
 
-};
+		};
 
 
-class Faculty
-{
-	int id;
-	string name;
-	int noOfBooks;
-	int issue_bj[10];
+		class Faculty
+		{
+			int id;
+			string name;
+			int noOfBooks;
+			int issue_bj[10];
 
-public:
+		public:
 	//Constructor
-	Faculty(int i,string n,int no=0,int bj[])
-	{
-		id=i;
-		name=n;
-		noOfBooks=no;
-		issued_bj=bj[];
-	}
+			Faculty(int i,string n,int no=0,int bj[])
+			{
+				id=i;
+				name=n;
+				noOfBooks=no;
+				issued_bj=bj[];
+			}
 	//Function to return id
-	int get_id_f()
-	{
-		return id;
-	}
+			int get_id_f()
+			{
+				return id;
+			}
 
 	//Function to get quantity
-	int get_noOfBooks_f()
-	{
-		return noOfBooks;
-	}
+			int get_noOfBooks_f()
+			{
+				return noOfBooks;
+			}
 
 	//Function to issue a book/journal
-	void issue_f(int card_no,int b_id)
-	{
-		if(noOfBooks==10)
-		{
-			cout<<"You have books issued on all cards..unable to issue"<<endl;
-		}
-		else
-		{
-			if(issue_bj[card_no]!=0)
+			void issue_f(int card_no,int b_id)
 			{
-				cout<<"You have books issued on this card..unable to issue"<<endl;
-			}
-			else
-			{
-				issue_bj[card_no]=b_id;
-				noOfBooks++;
-			}
+				if(noOfBooks==10)
+				{
+					cout<<"You have books issued on all cards..unable to issue"<<endl;
+				}
+				else
+				{
+					if(issue_bj[card_no]!=0)
+					{
+						cout<<"You have books issued on this card..unable to issue"<<endl;
+					}
+					else
+					{
+						issue_bj[card_no]=b_id;
+						noOfBooks++;
+					}
 
-		}
-	}
+				}
+			}
 
 	//Function to return a book
-	void return_f(int card_no)
-	{
-		if(issue_books[card_no]==0)
-		{
-			cout<<"No books issued to you on this card"<<endl;
-		}
-		else
-		{
-			issue_books[card_no]=0;
-			noOfBooks--;
-		}
-	}		
+			void return_f(int card_no)
+			{
+				if(issue_books[card_no]==0)
+				{
+					cout<<"No books issued to you on this card"<<endl;
+				}
+				else
+				{
+					issue_books[card_no]=0;
+					noOfBooks--;
+				}
+			}		
 
 	//Function to display student details
-	void display_f()
-	{
-		cout<<id<<"\t"<<name<<"\t"<<endl;
-	}
+			void display_f()
+			{
+				cout<<id<<"\t"<<name<<"\t"<<endl;
+			}
 
 	//Function to insert a new faculty into list
-	void insert_f()
-	{
-		fstream f_flist;
-		f_flist.open("facultylist.txt",ios::app);
-		f_flist<<endl;
-		f_flist<<id<<endl<<name<<endl<<;
-		for (int i = 0; i < 10; i++) 
-		{
-				f_flist << issued_books[i] << " ";
-		}
-		f_flist<<endl;
-		f_flist.close();
-	}
+			void insert_f()
+			{
+				fstream f_flist;
+				f_flist.open("facultylist.txt",ios::app);
+				f_flist<<endl;
+				f_flist<<id<<endl<<name<<endl<<;
+				for (int i = 0; i < 10; i++) 
+				{
+					f_flist << issued_books[i] << " ";
+				}
+				f_flist<<endl;
+				f_flist.close();
+			}
 
-};
+		};
+
+//Class to store list
+		class Lists
+		{
+			vector<Book> book_list;
+			vector<Journal> j_list;
+			vector<Student> stud_list;
+			vector<Faculty> fac_list;
+
+		public:
+
+			//Function to load book list
+			void load_book_list()
+			{
+				fstream fbook_list;
+				fbook_list.open("booklist.txt",ios::in);
+				while(!fbook_list.eof())
+				{
+					int i,c;
+					string n;
+					fbook_list>>i;
+					fbook_list>>n;
+					fbook_list>>c;
+					Book new_book(i,n,c);
+					book_list.push_back(new_book);
+				}
+				fbook_list.close();
+				book_list.pop_back();
+			}
+
+
+		};
+
+		class Transactions
+		{
+			int id;
+			int itemType;// 0-books 1-journal
+			int issuer; // 0-Student 1-teacher
+			int type; // 0-issue 1-return
+
+		public:
+			Transactions(int i,int it,int iss,int t)
+			{
+				id=i;
+				itemType=it;
+				issuer=iss;
+				type=t;
+			}
+		}
