@@ -18,7 +18,7 @@ class Transactions
 
 	public:
 		//Construcutor
-		Transactions(int i,int it,int iss,int iid,int t)
+		Transactions(int i=0,int it=-1,int iss=-1,int iid=0,int t=-1)
 		{
 			id=i;
 			itemType=it;
@@ -27,6 +27,11 @@ class Transactions
 			type=t;
 			Date dt;
 			d=dt;
+		}
+
+		int get_id_t()
+		{
+			return id;
 		}
 
 		//function to write transactions to a file

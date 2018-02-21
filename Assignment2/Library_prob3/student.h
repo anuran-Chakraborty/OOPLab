@@ -33,16 +33,18 @@ public:
 	}
 
 	//Function to issue a book
-	void issue_s(int card_no,int b_id)
+	int issue_s(int card_no,int b_id)
 	{
 		if(issue_books[card_no]==0)
 		{
 			issue_books[card_no]=b_id;
 			noOfBooks++;
+			return 1;
 		}
 		else
 		{
 			cout<<"You have books issued on this card..unable to issue"<<endl;
+			return 0;
 		}
 	}
 
