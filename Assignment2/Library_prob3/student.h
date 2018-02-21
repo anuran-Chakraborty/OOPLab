@@ -77,4 +77,9 @@ public:
 		file.close();
 	}
 
+	int operator[](int i)
+	{
+		return issue_books[i];
+	}
+
 };

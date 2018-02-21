@@ -266,7 +266,6 @@ public:
 				file2.open("booklist.dat",ios::out|ios::in|ios::binary);
 				file2.seekg((offset-1)*sizeof(b),ios::beg);
 				file2.read((char*)&b,sizeof(b));
-				file2.close();
 
 				if(b.get_qty_b<=0)
 				{
@@ -408,7 +407,6 @@ public:
 		file2.open("journallist.dat",ios::out|ios::in|ios::binary);
 		file2.seekg((offset-1)*sizeof(j),ios::beg);
 		file2.read((char*)&j,sizeof(j));
-		file2.close();
 
 		if(j.get_qty_j<=0)
 		{
@@ -437,6 +435,133 @@ public:
 		}
 	}
 
-	//Funcction to return book
+	//Function to return book
+	void returnBook()
+	{
+
+		int ch,id,offset,idb,cno;
+		cout<<"1. Student"<<endl<<"2. Faculty"<<endl<<"Enter choice"<<endl;
+		cin>>ch;
+
+		switch(ch)
+		{
+			case 1:
+			{
+				//Fetching student details
+				do
+				{
+					cout<<"Enter student id"<<endl;
+					cin>>id;
+				}
+				while(findStudentById(id)==-1);
+				offset=findStudentById(id);
+				ifstream file1,file2;
+				Student s;
+				file1.open("studentlist.dat",ios::out|ios::in|ios::binary);
+				file1.seekg((offset-1)*sizeof(s),ios::beg);
+				file1.read((char*)&s,sizeof(s));
+
+				do
+				{
+					cout<<"Enter card no"<<endl;
+					cin>>cno;
+					if(cno<1 || cno>2)
+						cout<<"Invalid card no"<<endl;
+				}
+				while(cno<1 || cno>2);
+
+				Book b;
+				//If no books are issued on this card then return
+				if(s[cno]==0)
+					return;
+
+				offset=findBookById(s[cno]);
+				file2.open("booklist.dat",ios::out|ios::in|ios::binary);
+				file2.seekg((offset-1)*sizeof(b),ios::beg);
+				file2.read((char*)&b,sizeof(b));
+
+
+				//Making changes to book file
+				b.return_b();
+				file2.seekg(-sizeof(b),ios::cur);
+				file2.write((char*)b,sizeof(b));
+
+				//Making changes to student file
+				s.return_s(cno);
+				file2.seekg(-sizeof(s),ios::cur);
+				file2.write((char*)s,sizeof(s));
+
+				//Creating a transaction
+				Transactions t(getMaxTransactionId(),0,0,id,1);
+				t.writeTrans();
+
+				break;
+			}
+
+			case 2:
+			{
+
+				//Fetching student details
+				do
+				{
+					cout<<"Enter faculty id"<<endl;
+					cin>>id;
+				}
+				while(findFacultyById(id)==-1);
+				offset=findFacultyById(id);
+				ifstream file1,file2;
+				Faculty s;
+				file1.open("facultylist.dat",ios::out|ios::in|ios::binary);
+				file1.seekg((offset-1)*sizeof(s),ios::beg);
+				file1.read((char*)&s,sizeof(s));
+
+				do
+				{
+					cout<<"Enter card no"<<endl;
+					cin>>cno;
+					if(cno<1 || cno>10)
+						cout<<"Invalid card no"<<endl;
+				}
+				while(cno<1 || cno>10);
+
+				Book b;
+				//If no books are issued on this card then return
+				if(s[cno]==0)
+					return;
+
+				offset=findBookById(s[cno]);
+				file2.open("booklist.dat",ios::out|ios::in|ios::binary);
+				file2.seekg((offset-1)*sizeof(b),ios::beg);
+				file2.read((char*)&b,sizeof(b));
+
+
+				//Making changes to book file
+				b.return_b();
+				file2.seekg(-sizeof(b),ios::cur);
+				file2.write((char*)b,sizeof(b));
+
+				//Making changes to student file
+				s.return_f(cno);
+				file2.seekg(-sizeof(s),ios::cur);
+				file2.write((char*)s,sizeof(s));
+
+				//Creating a transaction
+				Transactions t(getMaxTransactionId(),0,1,id,1);
+				t.writeTrans();
+
+				break;
+			}
+
+			default:
+			cout<<"Invalid choice"<<endl;
+
+		}
+	}
+
+	//Function to return journal
+	void returnJournal()
+	{
+		
+	}
 
 }
