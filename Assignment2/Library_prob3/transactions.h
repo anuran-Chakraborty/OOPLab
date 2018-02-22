@@ -51,9 +51,15 @@ class Transactions
 				cout<<"Journal"<<endl;
 
 			if(issuer==0)
-				cout<<"Issued to: Student "<<issuerId<<endl;
+				cout<<"By: Student "<<issuerId<<endl;
 			else
-				cout<<"Issued to: Faculty "<<issuerId<<endl;
+				cout<<"By: Faculty "<<issuerId<<endl;
+                        
+                        if(type==0)
+                            cout<<"Type: Issue"<<endl;
+                        else
+                            cout<<"Type: Return"<<endl;
 			cout<<"Date :"<<d<<endl;
+                        cout<<"-----------------------------------"<<endl;
 		}
 };

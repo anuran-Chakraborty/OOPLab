@@ -54,9 +54,9 @@ public:
 	//Function to return a book
 	void return_s(int card_no)
 	{
-		if(issue_books[card_no]!=0)
+		if(issue_books[card_no-1]!=0)
 		{
-			issue_books[card_no]=0;
+			issue_books[card_no-1]=0;
 			noOfBooks--;
 		}
 		else
@@ -68,7 +68,7 @@ public:
 	//Function to display student details
 	void display_s()
 	{
-		cout<<id<<"\t"<<name<<"\t"<<endl;
+		cout<<id<<"\t"<<name<<"\t"<<"\t"<<noOfBooks<<"\t"<<issue_books[0]<<"\t"<<issue_books[1]<<endl;
 	}
 
 	//Function to insert a new student into list

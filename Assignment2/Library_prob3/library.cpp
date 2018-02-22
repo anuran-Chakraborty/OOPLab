@@ -13,7 +13,8 @@ int main(){
 		cout<<"2. Issue"<<endl;
 		cout<<"3. Return"<<endl;
                 cout<<"4. Display"<<endl;
-		cout<<"5. Exit"<<endl;
+                cout<<"5. Increase quantity of books"<<endl;
+		cout<<"6. Exit"<<endl;
 		cout<<"Enter choice : ";
 		cin>>ch;
 		switch(ch){
@@ -90,11 +91,15 @@ int main(){
                             cout<<"\t\t*****TRANSACTION LIST*****"<<endl;
                             l.dispTrans();
                             break;
-			case 5:
+                        case 5:
+                            l.addQuantityBook();
+                            break;
+                        
+			case 6:
 				cout<<"Exiting...Thank you!!!\n";
 				break;
 			default:
 				cout<<"Wrong choice...Enter again\n";
 		}
-	}while(ch!=5);
+	}while(ch!=6);
 }

@@ -79,7 +79,10 @@ public:
 	//Function to display student details
 	void display_f()
 	{
-		cout<<id<<"\t"<<name<<"\t"<<endl;
+		cout<<id<<"\t"<<name<<"\t"<<noOfBooks<<"\t";
+                for(int i=0;i<10;i++)
+                    cout<<issue_bj[i]<<"\t";
+                cout<<endl;
 	}
 
 	//Function to insert a new faculty into list

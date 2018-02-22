@@ -43,6 +43,12 @@ public:
 		qty++;
 	}
 
+        //Function to increase qty
+        void inc_qty_b(int q)
+        {
+            qty+=q;
+        }
+        
 	//Function to insert a book into the book list
 	void insert_b()
 	{

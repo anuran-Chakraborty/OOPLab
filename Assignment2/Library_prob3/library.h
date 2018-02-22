@@ -50,7 +50,7 @@ private:
 		
                 file.seekg(0, ios::end);
                 int length = file.tellg();
-		file.seekg(length-sizeof(Student),ios::beg);
+		file.seekg(length-sizeof(Faculty),ios::beg);
                 
                 int bs[10]={0,0,0,0,0,0,0,0,0,0};
 		Faculty s(bs);
@@ -71,7 +71,7 @@ private:
 		
                 file.seekg(0, ios::end);
                 int length = file.tellg();
-		file.seekg(length-sizeof(Student),ios::beg);
+		file.seekg(length-sizeof(Book),ios::beg);
                 
 		Book s;
 		file.read((char*)&s,sizeof(Book));
@@ -89,7 +89,7 @@ private:
 		
                 file.seekg(0, ios::end);
                 int length = file.tellg();
-		file.seekg(length-sizeof(Student),ios::beg);
+		file.seekg(length-sizeof(Journal),ios::beg);
                 
 		Journal s;
 		file.read((char*)&s,sizeof(Journal));
@@ -108,7 +108,7 @@ private:
 		              
                 file.seekg(0, ios::end);
                 int length = file.tellg();
-		file.seekg(length-sizeof(Student),ios::beg);
+		file.seekg(length-sizeof(Transactions),ios::beg);
                 
 		Transactions t;
 		file.read((char*)&t,sizeof(Transactions));
@@ -258,11 +258,46 @@ public:
 		j.insert_j();
                 
 	}
+        
+        //Function to add quantity of book
+        void addQuantityBook()
+        {
+            int qty=0,idb,offset_b;
+            fstream file2;
+            do
+            {
+                    cout<<"Enter book id"<<endl;
+                    cin>>idb;
+            }
+            while(findBookById(idb)==-1);
+            
+            do
+            {
+                    cout<<"Enter quantity extra"<<endl;
+                    cin>>qty;
+                    
+                    if(qty<=0)
+                        cout<<"Invalid"<<endl;
+            }
+            while(qty<=0);
+            
+            Book b;
+            offset_b=findBookById(idb);
+            file2.open("booklist.dat",ios::out|ios::in|ios::binary);
+            file2.seekg((offset_b)*sizeof(b),ios::beg);
+            file2.read((char*)&b,sizeof(b));
+            b.inc_qty_b(qty);
+            file2.seekg((offset_b)*sizeof(b),ios::beg);
+            file2.write((char*)&b,sizeof(b));
+            file2.close();
+            
+            
+        }
 
 	//Function to issue a book
 	void issueBook()
 	{
-		int ch,id,offset,idb,cno;
+		int ch,id,offset_s,offset_b,offset,idb,cno;
 		cout<<"1. Student"<<endl<<"2. Faculty"<<endl<<"Enter choice"<<endl;
 		cin>>ch;
 
@@ -277,14 +312,20 @@ public:
 					cin>>id;
 				}
 				while(findStudentById(id)==-1);
-				offset=findStudentById(id);
+				offset_s=findStudentById(id);
 				fstream file1,file2;
                                 int bss[2]={0,0};
 				Student s(bss);
+                                
 				file1.open("studentlist.dat",ios::out|ios::in|ios::binary);
-				file1.seekg((offset)*sizeof(s),ios::beg);
-                                file1.seekp((offset)*sizeof(s),ios::beg);
+				file1.seekg((offset_s)*sizeof(s),ios::beg);
 				file1.read((char*)&s,sizeof(s));
+                                
+                                cout<<"#######"<<endl;
+                                s.display_s();
+                                cout<<"#######"<<endl;
+                                
+                             
 
 				do
 				{
@@ -303,11 +344,17 @@ public:
 				}
 				while(findBookById(idb)==-1);
 				Book b;
-				offset=findBookById(idb);
+				offset_b=findBookById(idb);
 				file2.open("booklist.dat",ios::out|ios::in|ios::binary);
-				file2.seekg((offset)*sizeof(b),ios::beg);
-                                file2.seekp((offset)*sizeof(b),ios::beg);
+				file2.seekg((offset_b)*sizeof(b),ios::beg);
+                                file2.seekp((offset_b)*sizeof(b),ios::beg);
 				file2.read((char*)&b,sizeof(b));
+                                
+                                cout<<"#######"<<endl;
+                                b.display_b();
+                                cout<<"#######"<<endl;
+                                
+                                //cout<<"tellp"<<file2.tellp()<<" "<<offset<<endl;
 
 				if(b.get_qty_b()<=0)
 				{
@@ -320,12 +367,12 @@ public:
 					{
 						//Making changes to book file
 						b.issue_b();
-						file2.seekg(-sizeof(b),ios::cur);
+						file2.seekg((offset_b)*sizeof(b),ios::beg);
 						file2.write((char*)&b,sizeof(b));
 
 						//Making changes to student file
-						file2.seekg(-sizeof(s),ios::cur);
-						file2.write((char*)&s,sizeof(s));
+						file1.seekg((offset_s)*sizeof(s),ios::beg);
+						file1.write((char*)&s,sizeof(s));
 
 						//Creating a transaction
 						Transactions t(getMaxTransactionId(),0,0,id,0);
@@ -347,13 +394,12 @@ public:
 					cin>>id;
 				}
 				while(findFacultyById(id)==-1);
-				offset=findFacultyById(id);
+				offset_s=findFacultyById(id);
 				fstream file1,file2;
                                 int bs[10]={0,0,0,0,0,0,0,0,0,0};
 				Faculty s(bs);
 				file1.open("facultylist.dat",ios::out|ios::in|ios::binary);
-				file1.seekg((offset)*sizeof(s),ios::beg);
-                                file1.seekp((offset)*sizeof(s),ios::beg);
+				file1.seekg((offset_s)*sizeof(s),ios::beg);
 				file1.read((char*)&s,sizeof(s));
 
 				do
@@ -373,10 +419,10 @@ public:
 				}
 				while(findBookById(idb)==-1);
 				Book b;
-				offset=findBookById(idb);
+				offset_b=findBookById(idb);
 				file2.open("booklist.dat",ios::out|ios::in|ios::binary);
-				file2.seekg((offset)*sizeof(b),ios::beg);
-                                file2.seekp((offset)*sizeof(b),ios::beg);
+				file2.seekg((offset_b)*sizeof(b),ios::beg);
+                                file2.seekp((offset_b)*sizeof(b),ios::beg);
 				file2.read((char*)&b,sizeof(b));
 				file2.close();
 
@@ -391,12 +437,12 @@ public:
 					{
 						//Making changes to book file
 						b.issue_b();
-						file2.seekg(-sizeof(b),ios::cur);
+						file2.seekp((offset_b)*sizeof(b),ios::beg);
 						file2.write((char*)&b,sizeof(b));
 
 						//Making changes to student file
-						file2.seekg(-sizeof(s),ios::cur);
-						file2.write((char*)&s,sizeof(s));
+						file1.seekg((offset_s)*sizeof(s),ios::beg);
+						file1.write((char*)&s,sizeof(s));
 
 						//Creating a transaction
 						Transactions t(getMaxTransactionId(),0,1,id,0);
@@ -475,8 +521,8 @@ public:
 				file2.write((char*)&j,sizeof(j));
 
 				//Making changes to faculty file
-				file2.seekg(-sizeof(s),ios::cur);
-				file2.write((char*)&s,sizeof(s));
+				file1.seekg(-sizeof(s),ios::cur);
+				file1.write((char*)&s,sizeof(s));
 
 				//Creating a transaction
 				Transactions t(getMaxTransactionId(),1,1,id,0);
@@ -493,7 +539,7 @@ public:
 	void returnBook()
 	{
 
-		int ch,id,offset,idb,cno;
+		int ch,id,offset_s,offset_b,idb,cno;
 		cout<<"1. Student"<<endl<<"2. Faculty"<<endl<<"Enter choice"<<endl;
 		cin>>ch;
 
@@ -508,13 +554,12 @@ public:
 					cin>>id;
 				}
 				while(findStudentById(id)==-1);
-				offset=findStudentById(id);
+				offset_s=findStudentById(id);
 				fstream file1,file2;
                                 int bss[2]={0,0};
 				Student s(bss);
 				file1.open("studentlist.dat",ios::out|ios::in|ios::binary);
-				file1.seekg((offset)*sizeof(s),ios::beg);
-                                file1.seekp((offset)*sizeof(s),ios::beg);
+				file1.seekg((offset_s)*sizeof(s),ios::beg);
 				file1.read((char*)&s,sizeof(s));
 
 				do
@@ -528,24 +573,24 @@ public:
 
 				Book b;
 				//If no books are issued on this card then return
-				if(s[cno]==0)
+				if(s[cno-1]==0)
 					return;
 
-				offset=findBookById(s[cno]);
+				offset_b=findBookById(s[cno-1]);
 				file2.open("booklist.dat",ios::out|ios::in|ios::binary);
-				file2.seekg((offset)*sizeof(b),ios::beg);
-                                file2.seekp((offset)*sizeof(b),ios::beg);
+				file2.seekg((offset_b)*sizeof(b),ios::beg);
+                                file2.seekp((offset_b)*sizeof(b),ios::beg);
 				file2.read((char*)&b,sizeof(b));
 
 
 				//Making changes to book file
 				b.return_b();
-				file2.seekg(-sizeof(b),ios::cur);
+				file2.seekg((offset_b)*sizeof(b),ios::beg);
 				file2.write((char*)&b,sizeof(b));
 
 				//Making changes to student file
 				s.return_s(cno);
-				file1.seekg(-sizeof(s),ios::cur);
+				file1.seekg((offset_s)*sizeof(s),ios::beg);
 				file1.write((char*)&s,sizeof(s));
 
 				//Creating a transaction
@@ -565,12 +610,12 @@ public:
 					cin>>id;
 				}
 				while(findFacultyById(id)==-1);
-				offset=findFacultyById(id);
+				offset_s=findFacultyById(id);
 				fstream file1,file2;
                                 int bs[10]={0,0,0,0,0,0,0,0,0,0};
 				Faculty s(bs);
 				file1.open("facultylist.dat",ios::out|ios::in|ios::binary);
-				file1.seekg((offset-1)*sizeof(s),ios::beg);
+				file1.seekg((offset_s)*sizeof(s),ios::beg);
 				file1.read((char*)&s,sizeof(s));
 
 				do
@@ -587,21 +632,21 @@ public:
 				if(s[cno]==0)
 					return;
 
-				offset=findBookById(s[cno]);
+				offset_b=findBookById(s[cno]);
 				file2.open("journallist.dat",ios::out|ios::in|ios::binary);
-				file2.seekg((offset-1)*sizeof(b),ios::beg);
+				file2.seekg((offset_b)*sizeof(b),ios::beg);
 				file2.read((char*)&b,sizeof(b));
 
 
 				//Making changes to book file
 				b.return_b();
-				file2.seekg(-sizeof(b),ios::cur);
+				file2.seekg((offset_b)*sizeof(b),ios::beg);
 				file2.write((char*)&b,sizeof(b));
 
 				//Making changes to student file
 				s.return_f(cno);
-				file2.seekg(-sizeof(s),ios::cur);
-				file2.write((char*)&s,sizeof(s));
+				file1.seekg((offset_s)*sizeof(s),ios::beg);
+				file1.write((char*)&s,sizeof(s));
 
 				//Creating a transaction
 				Transactions t(getMaxTransactionId(),0,1,id,1);
@@ -666,8 +711,8 @@ public:
 
 		//Making changes to student file
 		f.return_f(cno);
-		file2.seekg(-sizeof(f),ios::cur);
-		file2.write((char*)&f,sizeof(f));
+		file1.seekg(-sizeof(f),ios::cur);
+		file1.write((char*)&f,sizeof(f));
 
 		//Creating a transaction
 		Transactions t(getMaxTransactionId(),0,1,id,1);
@@ -684,17 +729,18 @@ public:
             file.open("studentlist.dat",ios::in|ios::binary);
             int bss[2]={0,0};
             Student s(bss);
-            
+            cout<<"====================================="<<endl;
             while(file.read((char*)&s,sizeof(s)))
             {
                 if(file.eof())
                     break;
-                cout<<"====================================="<<endl;
+                
                 s.display_s();
-                cout<<"====================================="<<endl;
+                
                 
                 
             }
+            cout<<"====================================="<<endl;
         }
         
         //Function to display all faculty
@@ -704,17 +750,19 @@ public:
             file.open("facultylist.dat",ios::in|ios::binary);
             int bss[10]={0,0,0,0,0,0,0,0,0,0};
             Faculty s(bss);
+            cout<<"====================================="<<endl;
             while(file.read((char*)&s,sizeof(s)))
             {
                 if(file.eof())
                     break;
 
-                cout<<"====================================="<<endl;
+                
                 s.display_f();
-                cout<<"====================================="<<endl;
+                
                 
                 
             }
+            cout<<"====================================="<<endl;
         }
         
         //Function to display all books
@@ -723,17 +771,19 @@ public:
             fstream file;
             file.open("booklist.dat",ios::in|ios::binary);
             Book b;
+            cout<<"====================================="<<endl;
             while(file.read((char*)&b,sizeof(b)))
             {
                 if(file.eof())
                     break;
     
-                cout<<"====================================="<<endl;
+                
                 b.display_b();
-                cout<<"====================================="<<endl;
+           
                 
                 
             }
+            cout<<"====================================="<<endl;
         }
         
         //Function to display all journals
@@ -742,18 +792,20 @@ public:
             fstream file;
             file.open("journallist.dat",ios::in|ios::binary);
             Journal b;
-                
+            
+            cout<<"====================================="<<endl;
             while(file.read((char*)&b,sizeof(b)))
             {
                 if(file.eof())
                     break;
                 
-                cout<<"====================================="<<endl;
+                
                 b.display_j();
-                cout<<"====================================="<<endl;
+                
                 
                 
             }
+            cout<<"====================================="<<endl;
         }
         
         //Function to display all transactions
@@ -762,19 +814,16 @@ public:
             fstream file;
             file.open("translist.dat",ios::in|ios::binary);
             Transactions b;
+            cout<<"====================================="<<endl;
             while(file.read((char*)&b,sizeof(b)))
             {
                 if(file.eof())
                     break;
-              
+
                 
-                
-                cout<<"====================================="<<endl;
                 b.displayTrans();
-                cout<<"====================================="<<endl;
-                
-                
             }
+            cout<<"====================================="<<endl;
         }
 };
 
