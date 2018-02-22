@@ -38,9 +38,9 @@ public:
 	//Function to issue a book
 	int issue_s(int card_no,int b_id)
 	{
-		if(issue_books[card_no]==0)
+		if(issue_books[card_no-1]==0)
 		{
-			issue_books[card_no]=b_id;
+			issue_books[card_no-1]=b_id;
 			noOfBooks++;
 			return 1;
 		}
