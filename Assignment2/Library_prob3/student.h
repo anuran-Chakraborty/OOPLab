@@ -1,3 +1,5 @@
+
+
 #include<iostream>
 #include<fstream>
 
@@ -13,12 +15,13 @@ class Student
 
 public:
 	//Constructor
-	Student(int i=0,string n="",int no=0,int b[]={0,0})
+	Student(int b[2],int i=0,string n="",int no=0)
 	{
 		id=i;
 		name=n;
 		noOfBooks=no;
-		issue_books=b;
+		issue_books[0]=b[0];
+                issue_books[1]=b[1];
 	}
 	//Function to return id
 	int get_id_s()
@@ -72,7 +75,7 @@ public:
 	void insert_s()
 	{
 		ofstream file;
-		file.open("studentlist.dat",ios::out|ios::app|ios::bin);
+		file.open("studentlist.dat",ios::out|ios::app|ios::binary);
 		file.write((char*)this,sizeof(*this));
 		file.close();
 	}
@@ -83,3 +86,4 @@ public:
 	}
 
 };
+

@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include"date.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class Journal
 
 public:
 	//Constructor
-	Journal(int i,string n,Date d,int v,int q=0)
+	Journal(int i=0,string n="",Date d=Date(),int v=0,int q=0)
 	{
 		id=i;
 		name=n;
@@ -37,13 +38,13 @@ public:
 	//Function to issue a journal
 	void issue_j()
 	{
-		copies--;
+		qty--;
 	}
 
 	//Function to return a journal
 	void return_j()
 	{
-		copies++;
+		qty++;
 	}
 
 	//Function to display journal details
@@ -52,11 +53,11 @@ public:
 		cout<<id<<"\t"<<name<<"\t"<<doi<<"\t"<<vol<<"\t"<<qty<<endl;
 	}
 
-	//Function to insert a new jornal into the journal list
+	//Function to insert a new journal into the journal list
 	void insert_j()
 	{
 		ofstream file;
-		file.open("journallist.dat",ios::out|ios::app|ios::bin);
+		file.open("journallist.dat",ios::out|ios::app|ios::binary);
 		file.write((char*)this,sizeof(*this));
 		file.close();
 	}

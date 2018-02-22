@@ -1,10 +1,8 @@
 #include<iostream>
-#include"date.h"
 #include<fstream>
 
 using namespace std;
 
-class Date;
 //Class to store each transaction
 class Transactions
 {
@@ -17,7 +15,7 @@ class Transactions
 
 
 	public:
-		//Construcutor
+		//Constructor
 		Transactions(int i=0,int it=-1,int iss=-1,int iid=0,int t=-1)
 		{
 			id=i;
@@ -25,8 +23,7 @@ class Transactions
 			issuer=iss;
 			issuerId=iid;
 			type=t;
-			Date dt;
-			d=dt;
+			d.getCurrentDate();
 		}
 
 		int get_id_t()
@@ -37,8 +34,8 @@ class Transactions
 		//function to write transactions to a file
 		void writeTrans()
 		{
-			ofstream file;
-			file.open("translist.dat",ios::out|ios::app|ios::bin);
+			fstream file;
+			file.open("translist.dat",ios::out|ios::app|ios::binary);
 			file.write((char*)this,sizeof(*this));
 			file.close();
 		}
@@ -59,4 +56,4 @@ class Transactions
 				cout<<"Issued to: Faculty "<<issuerId<<endl;
 			cout<<"Date :"<<d<<endl;
 		}
-}
+};

@@ -12,12 +12,14 @@ class Faculty
 
 public:
 	//Constructor
-	Faculty(int i=0,string n="",int no=0,int bj[]={0,0,0,0,0,0,0,0,0,0})
+	Faculty(int bj[10],int i=0,string n="",int no=0)
 	{
 		id=i;
 		name=n;
 		noOfBooks=no;
-		issued_bj=bj[];
+		int j;
+                for(j=0;j<10;j++)
+                    issue_bj[i]=bj[i];
 	}
 	//Function to return id
 	int get_id_f()
@@ -32,22 +34,25 @@ public:
 	}
 
 	//Function to issue a book/journal
-	void issue_f(int card_no,int b_id)
+	int issue_f(int card_no,int b_id)
 	{
 		if(noOfBooks==10)
 		{
 			cout<<"You have books issued on all cards..unable to issue"<<endl;
+                        return 0;
 		}
 		else
 		{
 			if(issue_bj[card_no]!=0)
 			{
 				cout<<"You have books issued on this card..unable to issue"<<endl;
+                                return 0;
 			}
 			else
 			{
 				issue_bj[card_no]=b_id;
 				noOfBooks++;
+                                return 1;
 			}
 
 		}
@@ -56,13 +61,13 @@ public:
 	//Function to return a book
 	void return_f(int card_no)
 	{
-		if(issue_books[card_no]==0)
+		if(issue_bj[card_no]==0)
 		{
 			cout<<"No books issued to you on this card"<<endl;
 		}
 		else
 		{
-			issue_books[card_no]=0;
+			issue_bj[card_no]=0;
 			noOfBooks--;
 		}
 	}		
@@ -77,14 +82,14 @@ public:
 	void insert_f()
 	{
 		ofstream file;
-		file.open("facultylist.dat",ios::out|ios::app|ios::bin);
+		file.open("facultylist.dat",ios::out|ios::app|ios::binary);
 		file.write((char*)this,sizeof(*this));
 		file.close();
 	}
 
 	int operator[](int i)
 	{
-		return issue_books[i];
+		return issue_bj[i];
 	}
 
 };

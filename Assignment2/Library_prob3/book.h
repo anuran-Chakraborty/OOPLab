@@ -11,7 +11,7 @@ class Book
 
 public:
 	//Constructor
-	Book(int i=0,String s="",int q=0)
+	Book(int i=0,string s="",int q=0)
 	{
 		id=i;
 		name=s;
@@ -33,20 +33,20 @@ public:
 	//Function to issue a book
 	void issue_b()
 	{
-		copies--;
+		qty--;
 	}
 
 	//Function to return a book
 	void return_b()
 	{
-		copies++;
+		qty++;
 	}
 
 	//Function to insert a book into the book list
 	void insert_b()
 	{
 		ofstream file;
-		file.open("booklist.dat",ios::out|ios::app|ios::bin);
+		file.open("booklist.dat",ios::out|ios::app|ios::binary);
 		file.write((char*)this,sizeof(*this));
 		file.close();
 	}

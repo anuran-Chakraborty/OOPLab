@@ -1,5 +1,8 @@
+
+
 #include<ctime>
 #include<iostream>
+#include<fstream>
 
 using namespace std;
 
@@ -17,6 +20,16 @@ public:
 		day=d;
 		month=m;
 		year=y;
+	}
+
+	//Function to get current date
+	void getCurrentDate()
+	{
+		time_t now = time(0);
+		tm *ltm = localtime(&now);
+		year=1900+ltm->tm_year;
+		month=1 + ltm->tm_mon;
+		day=ltm->tm_mday;
 	}
 
 	//Function to take date as input returns 1 if input is valid
@@ -120,14 +133,15 @@ public:
 			friend ofstream& operator<<(ofstream& f,Date& d);
 		};
 
-		ostream& operator<<(ostream& o,Date d)
-		{
-			o<<d.day<<"-"<<d.month<<"-"<<d.year;
-			return o;
-		}
+//		ostream& operator<<(ostream& o,Date& d)
+//		{
+//			o<<d.day<<"-"<<d.month<<"-"<<d.year;
+//			return o;
+//		}
+//
+//		ofstream& operator<<(ofstream& f,Date d)
+//		{
+//			f<<d.day<<"-"<<d.month<<"-"<<d.year;
+//			return f;
+//		}
 
-		ofstream& operator<<(ofstream& f,Date d)
-		{
-			f<<d.day<<"-"<<d.month<<"-"<<d.year;
-			return f;
-		}
