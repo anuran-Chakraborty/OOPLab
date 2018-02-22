@@ -25,10 +25,11 @@ private:
 	{
 		fstream file;
 		file.open("studentlist.dat",ios::in|ios::binary);
-		file.seekg(-2*sizeof(Student),ios::end);
+		file.seekg((-2)*sizeof(Student),ios::end);
                 int bss[2]={0,0};
 		Student s(bss);
 		file.read((char*)&s,sizeof(Student));
+                s.display_s();
 		if(s.get_id_s()==0)
 			return 100000;
 		return (s.get_id_s()+1);
@@ -163,6 +164,7 @@ public:
 		cin>>name;
                 int bss[2]={0,0};
 		Student s(bss,getMaxStudentId(),name,0);
+                s.display_s();
 		s.insert_s();
 	}
 

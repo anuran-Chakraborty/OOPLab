@@ -1,5 +1,4 @@
 
-
 #include<iostream>
 #include<fstream>
 
@@ -74,8 +73,8 @@ public:
 	//Function to insert a new student into list
 	void insert_s()
 	{
-		ofstream file;
-		file.open("studentlist.dat",ios::out|ios::app|ios::binary);
+                fstream file;
+		file.open("studentlist.dat",ios::app|ios::binary);
 		file.write((char*)this,sizeof(*this));
 		file.close();
 	}
