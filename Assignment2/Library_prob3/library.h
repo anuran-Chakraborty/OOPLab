@@ -25,7 +25,7 @@ private:
 	{
 		fstream file;
 		file.open("studentlist.dat",ios::in|ios::binary);
-		file.seekg(-sizeof(Student),ios::end);
+		file.seekg(-2*sizeof(Student),ios::end);
                 int bss[2]={0,0};
 		Student s(bss);
 		file.read((char*)&s,sizeof(Student));
@@ -39,7 +39,8 @@ private:
 	int getMaxFacultyId()
 	{
 		fstream file;
-		file.open("facultylist.dat",ios::in|ios::binary);
+		file.open("facultylist.dat",ios::in|ios::binary|ios::out);
+                cout<<"c2"<<endl;
 		file.seekg(-sizeof(Faculty),ios::end);
                 int bs[10]={0,0,0,0,0,0,0,0,0,0};
 		Faculty s(bs);
@@ -47,6 +48,7 @@ private:
 		if(s.get_id_f()==0)
 			return 200000;
 		return (s.get_id_f()+1);
+                file.close();
 
 	}
 
@@ -82,13 +84,14 @@ private:
 	int getMaxTransactionId()
 	{
 		fstream file;
-		file.open("translist.dat",ios::in|ios::binary);
+		file.open("translist.dat",ios::in|ios::binary|ios::out);
 		file.seekg(-sizeof(Transactions),ios::end);
 		Transactions t;
 		file.read((char*)&t,sizeof(Transactions));
 		if(t.get_id_t()==0)
 			return 5000000;
 		return (t.get_id_t()+1);
+                file.close();
 
 	}
 
@@ -170,7 +173,9 @@ public:
 		string name;
 		cin>>name;
 		int bs[10]={0,0,0,0,0,0,0,0,0,0};
+                cout<<"c1"<<endl;
                 Faculty s(bs,getMaxFacultyId(),name);
+                
 		s.insert_f();
 	}
 
@@ -224,6 +229,7 @@ public:
 
 		Journal j(getMaxJournalId(),name,doi,vol,qty);
 		j.insert_j();
+                
 	}
 
 	//Function to issue a book
@@ -368,6 +374,8 @@ public:
 					}
 
 				}
+                                file2.close();
+                                file1.close();
 				break;
 			}
 
@@ -375,6 +383,7 @@ public:
 			cout<<"Invalid choice"<<endl;
 
 		}
+                
 	}
 
 	//Function to issue a journal
@@ -443,6 +452,8 @@ public:
 			}
 
 		}
+                file2.close();
+                file1.close();
 	}
 
 	//Function to return book
@@ -560,6 +571,9 @@ public:
 				//Creating a transaction
 				Transactions t(getMaxTransactionId(),0,1,id,1);
 				t.writeTrans();
+                                
+                                file2.close();
+                                file1.close();
 
 				break;
 			}
@@ -568,6 +582,7 @@ public:
 			cout<<"Invalid choice"<<endl;
 
 		}
+                
 	}
 
 	//Function to return journal
@@ -622,6 +637,29 @@ public:
 		//Creating a transaction
 		Transactions t(getMaxTransactionId(),0,1,id,1);
 		t.writeTrans();
+                
+                file2.close();
+                file1.close();
 	}
+        
+        //Function to display all students
+        void dispStudents()
+        {
+            fstream file;
+            file.open("studentlist.dat",ios::in|ios::binary);
+            while(!file.eof())
+            {
+                if(file.eof())
+                    break;
+                int bss[2]={0,0};
+                Student s(bss);
+                file.read((char*)&s,sizeof(s));
+                cout<<"====================================="<<endl;
+                s.display_s();
+                cout<<"====================================="<<endl;
+                
+                
+            }
+        }
 };
 

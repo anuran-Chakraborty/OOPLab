@@ -82,7 +82,7 @@ public:
 	void insert_f()
 	{
 		ofstream file;
-		file.open("facultylist.dat",ios::out|ios::app|ios::binary);
+		file.open("facultylist.dat",ios::in|ios::out|ios::app|ios::binary);
 		file.write((char*)this,sizeof(*this));
 		file.close();
 	}

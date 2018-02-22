@@ -68,7 +68,7 @@ public:
 	//Function to display student details
 	void display_s()
 	{
-		cout<<id<<"\t"<<name<<"\t";
+		cout<<id<<"\t"<<name<<"\t"<<endl;
 	}
 
 	//Function to insert a new student into list

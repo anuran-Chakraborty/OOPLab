@@ -12,7 +12,8 @@ int main(){
 		cout<<"1. Enter new"<<endl;
 		cout<<"2. Issue"<<endl;
 		cout<<"3. Return"<<endl;
-		cout<<"4. Exit"<<endl;
+                cout<<"4. Display"<<endl;
+		cout<<"5. Exit"<<endl;
 		cout<<"Enter choice : ";
 		cin>>ch;
 		switch(ch){
@@ -76,11 +77,15 @@ int main(){
 					}
 				}while(flag==0);
 				break;
-			case 4:
+                               
+                        case 4:
+                            l.dispStudents();
+                            break;
+			case 5:
 				cout<<"Exiting...Thank you!!!\n";
 				break;
 			default:
 				cout<<"Wrong choice...Enter again\n";
 		}
-	}while(ch!=4);
+	}while(ch!=5);
 }
