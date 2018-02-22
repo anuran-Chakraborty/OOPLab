@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<cstring>
 #include"date.h"
 
 using namespace std;
@@ -8,7 +9,7 @@ using namespace std;
 class Journal
 {
 	int id;
-	string name;
+	char name[32];
 	Date doi;
 	int vol;
 	int qty;
@@ -18,7 +19,7 @@ public:
 	Journal(int i=0,string n="",Date d=Date(),int v=0,int q=0)
 	{
 		id=i;
-		name=n;
+		strcpy(name,n.c_str());
 		doi=d;
 		vol=v;
 		qty=q;

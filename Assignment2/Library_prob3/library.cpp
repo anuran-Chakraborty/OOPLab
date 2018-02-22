@@ -79,7 +79,16 @@ int main(){
 				break;
                                
                         case 4:
+                            cout<<"\t\t*****STUDENT LIST*****"<<endl;
                             l.dispStudents();
+                            cout<<"\t\t*****FACULTY LIST*****"<<endl;
+                            l.dispFaculty();
+                            cout<<"\t\t*****BOOK LIST*****"<<endl;
+                            l.dispBooks();
+                            cout<<"\t\t*****JOURNAL LIST*****"<<endl;
+                            l.dispJournals();
+                            cout<<"\t\t*****TRANSACTION LIST*****"<<endl;
+                            l.dispTrans();
                             break;
 			case 5:
 				cout<<"Exiting...Thank you!!!\n";

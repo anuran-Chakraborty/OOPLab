@@ -1,20 +1,21 @@
 #include<iostream>
 #include<fstream>
+#include<cstring>
 
 using namespace std;
 
 class Book
 {
 	int id;
-	string name;
+	char name[51];
 	int qty;
 
 public:
 	//Constructor
-	Book(int i=0,string s="",int q=0)
+	Book(int i=0,string n="",int q=0)
 	{
 		id=i;
-		name=s;
+		strcpy(name,n.c_str());
 		qty=q;
 	}
 

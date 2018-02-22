@@ -25,11 +25,16 @@ private:
 	{
 		fstream file;
 		file.open("studentlist.dat",ios::in|ios::binary);
-		file.seekg((-2)*sizeof(Student),ios::end);
+                
+                file.seekg(0, ios::end);
+                int length = file.tellg();
+		file.seekg(length-sizeof(Student),ios::beg);
+                
                 int bss[2]={0,0};
 		Student s(bss);
 		file.read((char*)&s,sizeof(Student));
                 s.display_s();
+                file.close();
 		if(s.get_id_s()==0)
 			return 100000;
 		return (s.get_id_s()+1);
@@ -42,10 +47,15 @@ private:
 		fstream file;
 		file.open("facultylist.dat",ios::in|ios::binary|ios::out);
                 cout<<"c2"<<endl;
-		file.seekg(-sizeof(Faculty),ios::end);
+		
+                file.seekg(0, ios::end);
+                int length = file.tellg();
+		file.seekg(length-sizeof(Student),ios::beg);
+                
                 int bs[10]={0,0,0,0,0,0,0,0,0,0};
 		Faculty s(bs);
 		file.read((char*)&s,sizeof(Faculty));
+                file.close();
 		if(s.get_id_f()==0)
 			return 200000;
 		return (s.get_id_f()+1);
@@ -58,7 +68,11 @@ private:
 	{
 		fstream file;
 		file.open("booklist.dat",ios::in|ios::binary);
-		file.seekg(-sizeof(Book),ios::end);
+		
+                file.seekg(0, ios::end);
+                int length = file.tellg();
+		file.seekg(length-sizeof(Student),ios::beg);
+                
 		Book s;
 		file.read((char*)&s,sizeof(Book));
 		if(s.get_id_b()==0)
@@ -72,9 +86,14 @@ private:
 	{
 		fstream file;
 		file.open("journallist.dat",ios::in|ios::binary);
-		file.seekg(-sizeof(Journal),ios::end);
+		
+                file.seekg(0, ios::end);
+                int length = file.tellg();
+		file.seekg(length-sizeof(Student),ios::beg);
+                
 		Journal s;
 		file.read((char*)&s,sizeof(Journal));
+                file.close();
 		if(s.get_id_j()==0)
 			return 2000000;
 		return (s.get_id_j()+1);
@@ -86,9 +105,14 @@ private:
 	{
 		fstream file;
 		file.open("translist.dat",ios::in|ios::binary|ios::out);
-		file.seekg(-sizeof(Transactions),ios::end);
+		              
+                file.seekg(0, ios::end);
+                int length = file.tellg();
+		file.seekg(length-sizeof(Student),ios::beg);
+                
 		Transactions t;
 		file.read((char*)&t,sizeof(Transactions));
+                file.close();
 		if(t.get_id_t()==0)
 			return 5000000;
 		return (t.get_id_t()+1);
@@ -162,6 +186,7 @@ public:
 		string name;
 		cout<<"Enter name of student"<<endl;
 		cin>>name;
+               
                 int bss[2]={0,0};
 		Student s(bss,getMaxStudentId(),name,0);
                 s.display_s();
@@ -196,7 +221,7 @@ public:
 				cout<<"Invalid quantity"<<endl;
 		}
 		while(qty<=0);
-
+                
 		Book b(getMaxBookId(),name,qty);
 		b.insert_b();
 	}
@@ -649,15 +674,94 @@ public:
         {
             fstream file;
             file.open("studentlist.dat",ios::in|ios::binary);
-            while(!file.eof())
+            Student s(bss);
+            int bss[2]={0,0};
+            while(file.read((char*)&s,sizeof(s)))
             {
                 if(file.eof())
                     break;
-                int bss[2]={0,0};
-                Student s(bss);
-                file.read((char*)&s,sizeof(s));
                 cout<<"====================================="<<endl;
                 s.display_s();
+                cout<<"====================================="<<endl;
+                
+                
+            }
+        }
+        
+        //Function to display all faculty
+        void dispFaculty()
+        {
+            fstream file;
+            file.open("facultylist.dat",ios::in|ios::binary);
+            int bss[10]={0,0,0,0,0,0,0,0,0,0};
+            Faculty s(bss);
+            while(file.read((char*)&s,sizeof(s));)
+            {
+                if(file.eof())
+                    break;
+
+                cout<<"====================================="<<endl;
+                s.display_f();
+                cout<<"====================================="<<endl;
+                
+                
+            }
+        }
+        
+        //Function to display all books
+        void dispBooks()
+        {
+            fstream file;
+            file.open("booklist.dat",ios::in|ios::binary);
+            Book b;
+            while(file.read((char*)&b,sizeof(b)))
+            {
+                if(file.eof())
+                    break;
+    
+                cout<<"====================================="<<endl;
+                b.display_b();
+                cout<<"====================================="<<endl;
+                
+                
+            }
+        }
+        
+        //Function to display all journals
+        void dispJournals()
+        {
+            fstream file;
+            file.open("journallist.dat",ios::in|ios::binary);
+            Journal b;
+                
+            while(file.read((char*)&b,sizeof(b));)
+            {
+                if(file.eof())
+                    break;
+                
+                cout<<"====================================="<<endl;
+                b.display_j();
+                cout<<"====================================="<<endl;
+                
+                
+            }
+        }
+        
+        //Function to display all transactions
+        void dispTrans()
+        {
+            fstream file;
+            file.open("translist.dat",ios::in|ios::binary);
+            Transactions b;
+            while(file.read((char*)&b,sizeof(b));)
+            {
+                if(file.eof())
+                    break;
+              
+                
+                
+                cout<<"====================================="<<endl;
+                b.displayTrans();
                 cout<<"====================================="<<endl;
                 
                 

@@ -1,6 +1,7 @@
 
 #include<iostream>
 #include<fstream>
+#include<cstring>
 
 using namespace std;
 
@@ -8,7 +9,7 @@ using namespace std;
 class Student
 {
 	int id;
-	string name;
+	char name[32];
 	int noOfBooks;
 	int issue_books[2];
 
@@ -17,7 +18,7 @@ public:
 	Student(int b[2],int i=0,string n="",int no=0)
 	{
 		id=i;
-		name=n;
+		strcpy(name,n.c_str());
 		noOfBooks=no;
 		issue_books[0]=b[0];
                 issue_books[1]=b[1];

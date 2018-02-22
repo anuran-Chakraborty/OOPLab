@@ -133,11 +133,11 @@ public:
 			friend ofstream& operator<<(ofstream& f,Date& d);
 		};
 
-//		ostream& operator<<(ostream& o,Date& d)
-//		{
-//			o<<d.day<<"-"<<d.month<<"-"<<d.year;
-//			return o;
-//		}
+		ostream& operator<<(ostream& o,Date& d)
+		{
+			o<<d.day<<"-"<<d.month<<"-"<<d.year;
+			return o;
+		}
 //
 //		ofstream& operator<<(ofstream& f,Date d)
 //		{

@@ -1,12 +1,13 @@
 #include<iostream>
 #include<fstream>
+#include<cstring>
 
 using namespace std;
 
 class Faculty
 {
 	int id;
-	string name;
+	char name[32];
 	int noOfBooks;
 	int issue_bj[10];
 
@@ -15,11 +16,14 @@ public:
 	Faculty(int bj[10],int i=0,string n="",int no=0)
 	{
 		id=i;
-		name=n;
+                
+//		char* nm=new char[n.length()+1];
+                strcpy(name,n.c_str());
+                
 		noOfBooks=no;
 		int j;
                 for(j=0;j<10;j++)
-                    issue_bj[i]=bj[i];
+                    issue_bj[j]=bj[j];
 	}
 	//Function to return id
 	int get_id_f()
