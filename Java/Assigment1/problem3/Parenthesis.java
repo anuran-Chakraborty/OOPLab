@@ -4,13 +4,13 @@ import java.util.*;
 
 public class Parenthesis
 {
-    private Stack<Character> brackets;
+    private Stck brackets;
     private String expr;
     
     public Parenthesis()
     {
         expr="";
-        brackets=new Stack<Character>();
+        brackets=new Stck();
         
     }
 
