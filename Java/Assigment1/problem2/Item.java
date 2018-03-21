@@ -50,5 +50,9 @@ class Item
         return code;
     }
     
-
+    //Function to display item
+    public void display()
+    {
+        System.out.println("Code :"+code+"\nName: "+name+"\nRate: "+rate+"\nQuantity: "+qty);
+    }
 }
