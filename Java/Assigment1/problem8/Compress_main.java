@@ -1,4 +1,4 @@
-package problem8;
+package problem8; 
 
 import java.util.*;
 import java.util.zip.*;
@@ -29,6 +29,7 @@ class Compress_main
 						System.out.println("Enter name of source file");
 						fileName=sc.next();
 						file=new File(fileName);
+						
 						// if(!file.isFile())
 						// {
 						// 	System.out.println("Invalid input not a file");
@@ -42,7 +43,7 @@ class Compress_main
 					}
 				}
 				while(flag==false);
-				Compress.gzipFile(fileName,"files1.gzip");
+				Compress.gzipFile(fileName,fileName+".gz");
 				break;
 
 				case 2:
