@@ -1,31 +1,107 @@
 package problem1;
-
 import java.util.*;
+import java.text.SimpleDateFormat;
 
-class STUDENT
+class Student implements Comparable<Student>
 {
-	private static int nextRoll=1000;
-	private int roll;
-	private String name;
-	private String course;
-	private String admissionDate;
-	private int marks[5];
+    protected static int count;
+    protected static String[] courseList={"Undergraduate","Postgraduate"};
+    protected String roll;
+    protected String name;
+    protected String course;
+    protected Date adm_date;
+    protected double marks[];
+    protected double total;
+    //constructor
+    Student()
+    {
+        count+=1;
+        name="";
+        course="";
+        adm_date=new Date();
+        marks=new double[]{-1.0,0.0,0.0,0.0,0.0,0.0};
+        //marks={;//-1 denotes that the student has not appeared for exam
+        total=0.0;
+    }
 
+    Student(String r){
+        roll=r;
+    }
 
-	//Constructor
-	public Student()
-	{
-		roll=nextRoll;
-		name="";
-		course="";
-		admissionDate="";
-		marks={0,0,0,0,0};
-	}
+    static void setCount()
+    {
+        count=0;
+    }
 
-	//Function to take admission
-	public void admission()
-	{
-		Scanner sc=new Scanner(System.in);
-		
-	}
+    static int getCount(){
+        return count;
+    }
+
+    String getRoll(){
+        return roll;
+    }
+
+    double getTotal(){
+        return total;
+    }
+
+    String getName()
+    {
+        return name;
+    }
+
+    String getCourse()
+    {
+        return course;
+    }
+
+    Date getDate()
+    {
+        return adm_date;
+    }
+
+    //function to receive student data
+    void readData(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter name");
+        name=sc.nextLine();
+        System.out.println("Enter course of study:\n1.Undergraduate\n2.Postgraduate");
+        course=courseList[sc.nextInt()-1];
+    }
+
+    //function to receive marks
+    void recMarks()
+    {
+        System.out.println("Enter marks of 5 subjects");
+        Scanner sc=new Scanner(System.in);
+        int i;
+        marks[0]=1.0;//denotes the student has appeared for at least one exam
+        for(i=1;i<=5;i++){
+            System.out.print("Subject "+i+" : ");
+            marks[i]=sc.nextDouble();
+            total+=marks[i];
+        }
+    }
+
+    void display()
+    {
+        System.out.println("==========================================================");
+        System.out.println("Name : "+name);
+        System.out.println("Roll : "+roll);
+        System.out.println("Course of study : "+course);
+        System.out.print("Admission date : ");
+        SimpleDateFormat f=new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println(f.format(adm_date));
+        if(marks[0]>0.0){
+            System.out.println("Total marks :"+total);
+            System.out.println("Average marks : "+(total/5));
+        }
+        System.out.println("==========================================================");
+    }
+
+    //overriding compareTo function for comparing/sorting
+    public int compareTo(Student s2){
+        return (int)(this.total-s2.total);
+    } 
+
 }
