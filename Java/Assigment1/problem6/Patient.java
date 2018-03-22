@@ -14,12 +14,14 @@ class Patient
     private int status;
 
     //Constructor
-    public Patient(String name,int did)
+    public Patient(String name,int did, String dname)
     {
         this.name=name;
         id=10000+lastId++;
         docid=did;
+        docname=dname;
         record=new ArrayList<>();
+        status=1;
     }
 
     //Function to assign a doctor
@@ -30,11 +32,22 @@ class Patient
     // }
 
     //Function to set bp and temp
-    public void setReacord(Readings r)
+    public void setRecord(Readings r)
     {
         record.add(r);
     }
 
+    //Function to check ifa patient is still in hospital
+    public boolean isChecked()
+    {
+        return status==1;
+    }
+
+    //Function to check out a patient
+    public void checkOut()
+    {
+        status=0;
+    }
     //Function to get id
     public int getId()
     {
@@ -46,7 +59,7 @@ class Patient
     {
         return docid;
     }
-    
+
     //Function  to display
     public void display()
     {
@@ -54,9 +67,18 @@ class Patient
         if(docid==0)
             System.out.println("Assigned to: None");
         else
-            System.out.println("Assigned to: "+docid);
+            System.out.println("Assigned to: "+docname);
     }
-    
+
     //Function to show all readings
-    
+    public void showReadings()
+    {
+        System.out.println("Taken by: "+docname);
+        System.out.println("--------------------------------------------------");
+        for(Readings r:record)
+        {
+            System.out.println(r);
+            System.out.println("--------------------------------------------------");
+        }
+    }
 }
