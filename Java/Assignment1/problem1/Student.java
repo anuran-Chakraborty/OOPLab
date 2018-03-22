@@ -61,7 +61,8 @@ class Student implements Comparable<Student>
     }
 
     //function to receive student data
-    void readData(){
+    void readData()
+    {
         Scanner sc=new Scanner(System.in);
         System.out.println("Enter name");
         name=sc.nextLine();
@@ -92,16 +93,24 @@ class Student implements Comparable<Student>
         System.out.print("Admission date : ");
         SimpleDateFormat f=new SimpleDateFormat("dd/MM/yyyy");
         System.out.println(f.format(adm_date));
-        if(marks[0]>0.0){
+        int i=0;
+        for(double m:marks)
+            System.out.println("Subject"+(i++)+": "+m);
+        if(marks[0]>0.0)
+        {
             System.out.println("Total marks :"+total);
             System.out.println("Average marks : "+(total/5));
+        }
+        else
+        {
+            System.out.println("marks not yet entered");
         }
         System.out.println("==========================================================");
     }
 
     //overriding compareTo function for comparing/sorting
     public int compareTo(Student s2){
-        return (int)(this.total-s2.total);
+        return (int)(-this.total+s2.total);
     } 
 
 }

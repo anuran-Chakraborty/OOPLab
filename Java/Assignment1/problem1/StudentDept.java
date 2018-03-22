@@ -2,10 +2,10 @@ package problem1;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
-class StudentDept extends Student
-{
+class StudentDept extends Student{
     static String[] deptList={"CSE","ETCE","EE","IT"};
     static int[] deptCount={0,0,0,0};
+    static int[] deptRoll={0,0,0,0};
     String dept;
     
     StudentDept(){
@@ -28,15 +28,16 @@ class StudentDept extends Student
         int d=sc.nextInt();
         dept=deptList[--d];
         deptCount[d]++;
+        deptRoll[d]++;
         Calendar c=Calendar.getInstance();
         c.setTime(adm_date);
         roll=dept+(c.get(Calendar.YEAR)%100);
         if(deptCount[d]<10)
-            roll=roll+"00"+deptCount[d];
+            roll=roll+"00"+deptRoll[d];
         else if(deptCount[d]<100)
-            roll=roll+"0"+deptCount[d];
+            roll=roll+"0"+deptRoll[d];
         else
-            roll=roll+deptCount[d];
+            roll=roll+deptRoll[d];
     }
 
     void display(){
