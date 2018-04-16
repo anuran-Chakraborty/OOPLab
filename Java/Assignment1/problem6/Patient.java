@@ -74,11 +74,11 @@ class Patient
     public void showReadings()
     {
         System.out.println("Taken by: "+docname);
-        System.out.println("--------------------------------------------------");
+        System.out.println("-----------------------------------------------");
         for(Readings r:record)
         {
             System.out.println(r);
-            System.out.println("--------------------------------------------------");
+            System.out.println("-------------------------------------------");
         }
     }
 }

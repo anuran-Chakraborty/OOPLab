@@ -21,7 +21,8 @@ class Readings
     @Override
     public String toString()
     {
-        String s=dateTime+"\nBP: "+Integer.toString(ubp)+"/"+Integer.toString(lbp)+"\nTEMPERATURE: "+Double.toString(temp);
+        String s=dateTime+"\nBP: "+Integer.toString(ubp)+"/"+
+                Integer.toString(lbp)+"\nTEMPERATURE: "+Double.toString(temp);
         return s;
     }
 }
